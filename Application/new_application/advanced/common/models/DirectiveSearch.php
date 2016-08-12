@@ -19,7 +19,7 @@ class DirectiveSearch extends Directive
     {
         return [
             [['id'], 'integer'],
-            [['directive_date', 'directive_type'], 'safe'],
+            [['directive_date', 'directive_type', 'directive_name'], 'safe'],
         ];
     }
 
@@ -63,7 +63,8 @@ class DirectiveSearch extends Directive
             'directive_date' => $this->directive_date,
         ]);
 
-        $query->andFilterWhere(['like', 'directive_type', $this->directive_type]);
+        $query->andFilterWhere(['like', 'directive_type', $this->directive_type])
+            ->andFilterWhere(['like', 'directive_name', $this->directive_name]);
 
         return $dataProvider;
     }

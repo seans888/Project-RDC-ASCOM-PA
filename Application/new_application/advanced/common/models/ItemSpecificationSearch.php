@@ -19,7 +19,7 @@ class ItemSpecificationSearch extends ItemSpecification
     {
         return [
             [['id'], 'integer'],
-            [['itemspec_date'], 'safe'],
+            [['itemspec_date', 'itemspec_name'], 'safe'],
         ];
     }
 
@@ -62,6 +62,8 @@ class ItemSpecificationSearch extends ItemSpecification
             'id' => $this->id,
             'itemspec_date' => $this->itemspec_date,
         ]);
+
+        $query->andFilterWhere(['like', 'itemspec_name', $this->itemspec_name]);
 
         return $dataProvider;
     }

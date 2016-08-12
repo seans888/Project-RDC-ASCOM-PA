@@ -21,6 +21,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'directive_type') ?>
 
+    <?= $form->field($model, 'directive_name') ?>
+
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>

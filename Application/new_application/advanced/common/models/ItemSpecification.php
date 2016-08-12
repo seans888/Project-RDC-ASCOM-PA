@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $itemspec_date
+ * @property string $itemspec_name
  */
 class ItemSpecification extends \yii\db\ActiveRecord
 {
@@ -26,8 +27,9 @@ class ItemSpecification extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['itemspec_date'], 'required'],
+            [['itemspec_date', 'itemspec_name'], 'required'],
             [['itemspec_date'], 'safe'],
+            [['itemspec_name'], 'string', 'max' => 100],
         ];
     }
 
@@ -39,6 +41,7 @@ class ItemSpecification extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'itemspec_date' => 'Itemspec Date',
+            'itemspec_name' => 'Itemspec Name',
         ];
     }
 }

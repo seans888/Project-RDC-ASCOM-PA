@@ -14,6 +14,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'itemspec_date')->textInput() ?>
 
+    <?= $form->field($model, 'itemspec_name')->textInput(['maxlength' => true]) ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

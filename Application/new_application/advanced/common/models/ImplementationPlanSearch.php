@@ -19,7 +19,7 @@ class ImplementationPlanSearch extends ImplementationPlan
     {
         return [
             [['id'], 'integer'],
-            [['implan_date'], 'safe'],
+            [['implan_date', 'implan_name'], 'safe'],
         ];
     }
 
@@ -62,6 +62,8 @@ class ImplementationPlanSearch extends ImplementationPlan
             'id' => $this->id,
             'implan_date' => $this->implan_date,
         ]);
+
+        $query->andFilterWhere(['like', 'implan_name', $this->implan_name]);
 
         return $dataProvider;
     }

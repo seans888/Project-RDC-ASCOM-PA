@@ -27,6 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'directive_date',
             'directive_type',
+            'directive_name',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

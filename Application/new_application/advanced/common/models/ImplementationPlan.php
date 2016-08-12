@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $implan_date
+ * @property string $implan_name
  */
 class ImplementationPlan extends \yii\db\ActiveRecord
 {
@@ -26,8 +27,9 @@ class ImplementationPlan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['implan_date'], 'required'],
+            [['implan_date', 'implan_name'], 'required'],
             [['implan_date'], 'safe'],
+            [['implan_name'], 'string', 'max' => 100],
         ];
     }
 
@@ -39,6 +41,7 @@ class ImplementationPlan extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'implan_date' => 'Implan Date',
+            'implan_name' => 'Implan Name',
         ];
     }
 }

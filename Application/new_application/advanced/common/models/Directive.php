@@ -10,6 +10,7 @@ use Yii;
  * @property integer $id
  * @property string $directive_date
  * @property string $directive_type
+ * @property string $directive_name
  */
 class Directive extends \yii\db\ActiveRecord
 {
@@ -27,9 +28,10 @@ class Directive extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['directive_date', 'directive_type'], 'required'],
+            [['directive_date', 'directive_type', 'directive_name'], 'required'],
             [['directive_date'], 'safe'],
             [['directive_type'], 'string', 'max' => 45],
+            [['directive_name'], 'string', 'max' => 100],
         ];
     }
 
@@ -42,6 +44,7 @@ class Directive extends \yii\db\ActiveRecord
             'id' => 'ID',
             'directive_date' => 'Directive Date',
             'directive_type' => 'Directive Type',
+            'directive_name' => 'Directive Name',
         ];
     }
 }

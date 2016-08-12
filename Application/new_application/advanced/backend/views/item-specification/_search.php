@@ -19,6 +19,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'itemspec_date') ?>
 
+    <?= $form->field($model, 'itemspec_name') ?>
+
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
