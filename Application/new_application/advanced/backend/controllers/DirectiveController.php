@@ -8,6 +8,7 @@ use common\models\DirectiveSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * DirectiveController implements the CRUD actions for Directive model.
@@ -66,6 +67,17 @@ class DirectiveController extends Controller
         $model = new Directive();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            // get the instance of the uploaded file
+            $fileName = $model->directive_name;
+            $model->file = UploadedFile::getInstance($model, 'file');
+            $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
+
+            // save the path in the db column
+            $model->directive_file = 'uploads/' .$fileName. '.' .$model->file->extension;
+            $model->directive_date = date('mm-dd-yy');
+            $model->save();
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

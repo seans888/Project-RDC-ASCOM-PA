@@ -17,6 +17,8 @@ class Directive extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $file;
+
     public static function tableName()
     {
         return 'directive';
@@ -31,7 +33,8 @@ class Directive extends \yii\db\ActiveRecord
             [['directive_date', 'directive_type', 'directive_name'], 'required'],
             [['directive_date'], 'safe'],
             [['directive_type'], 'string', 'max' => 45],
-            [['directive_name'], 'string', 'max' => 100],
+            [['directive_name', "directive_file"], 'string', 'max' => 100],
+            [['file'], 'file']
         ];
     }
 
@@ -45,6 +48,7 @@ class Directive extends \yii\db\ActiveRecord
             'directive_date' => 'Directive Date',
             'directive_type' => 'Directive Type',
             'directive_name' => 'Directive Name',
+            'directive_file' => 'Insert directive here',
         ];
     }
 }

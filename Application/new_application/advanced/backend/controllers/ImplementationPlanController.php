@@ -8,6 +8,7 @@ use common\models\ImplementationPlanSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ImplementationPlanController implements the CRUD actions for ImplementationPlan model.
@@ -66,6 +67,17 @@ class ImplementationPlanController extends Controller
         $model = new ImplementationPlan();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            // get the instance of the uploaded file
+            $fileName = $model->implan_name;
+            $model->file = UploadedFile::getInstance($model, 'file');
+            $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
+
+            // save the path in the db column
+            $model->implan_file = 'uploads/' .$fileName. '.' .$model->file->extension;
+            $model->implan_date = date('mm-dd-yy');
+            $model->save();
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
