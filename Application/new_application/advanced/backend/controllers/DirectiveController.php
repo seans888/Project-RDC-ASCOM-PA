@@ -74,7 +74,7 @@ class DirectiveController extends Controller
             $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
 
             // save the path in the db column
-            $model->directive_file = 'uploads/' .$fileName. '.' .$model->file->extension;
+            $model->directive_file = 'uploads/'.$fileName. '.' .$model->file->extension;
             $model->directive_date = date('mm-dd-yy');
             $model->save();
 
