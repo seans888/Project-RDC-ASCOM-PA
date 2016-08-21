@@ -3,17 +3,17 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\TaskOrganization;
-use common\models\TaskOrganizationSearch;
+use common\models\TestWorksheet;
+use common\models\TestWorksheetSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 
 /**
- * TaskOrganizationController implements the CRUD actions for TaskOrganization model.
+ * TestWorksheetController implements the CRUD actions for TestWorksheet model.
  */
-class TaskOrganizationController extends Controller
+class TestWorksheetController extends Controller
 {
     /**
      * @inheritdoc
@@ -31,12 +31,12 @@ class TaskOrganizationController extends Controller
     }
 
     /**
-     * Lists all TaskOrganization models.
+     * Lists all TestWorksheet models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new TaskOrganizationSearch();
+        $searchModel = new TestWorksheetSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -46,7 +46,7 @@ class TaskOrganizationController extends Controller
     }
 
     /**
-     * Displays a single TaskOrganization model.
+     * Displays a single TestWorksheet model.
      * @param integer $id
      * @return mixed
      */
@@ -58,23 +58,23 @@ class TaskOrganizationController extends Controller
     }
 
     /**
-     * Creates a new TaskOrganization model.
+     * Creates a new TestWorksheet model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new TaskOrganization();
+        $model = new TestWorksheet();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             // get the instance of the uploaded file
-            $fileName = $model->taskorg_name;
+            $fileName = $model->work_item;
             $model->file = UploadedFile::getInstance($model, 'file');
             $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
 
             // save the path in the db column
-            $model->taskorg_file = 'uploads/' .$fileName. '.' .$model->file->extension;
-            $model->taskorg_date = date('mm-dd-yy');
+            $model->work_file = 'uploads/' .$fileName. '.' .$model->file->extension;
+            
             $model->save();
 
             return $this->redirect(['view', 'id' => $model->id]);
@@ -86,7 +86,7 @@ class TaskOrganizationController extends Controller
     }
 
     /**
-     * Updates an existing TaskOrganization model.
+     * Updates an existing TestWorksheet model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -105,7 +105,7 @@ class TaskOrganizationController extends Controller
     }
 
     /**
-     * Deletes an existing TaskOrganization model.
+     * Deletes an existing TestWorksheet model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -118,15 +118,15 @@ class TaskOrganizationController extends Controller
     }
 
     /**
-     * Finds the TaskOrganization model based on its primary key value.
+     * Finds the TestWorksheet model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return TaskOrganization the loaded model
+     * @return TestWorksheet the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = TaskOrganization::findOne($id)) !== null) {
+        if (($model = TestWorksheet::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

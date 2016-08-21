@@ -16,6 +16,7 @@ class Result extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $file;
     public static function tableName()
     {
         return 'result';
@@ -30,6 +31,8 @@ class Result extends \yii\db\ActiveRecord
             [['result_date', 'result_item'], 'required'],
             [['result_date'], 'safe'],
             [['result_item'], 'string', 'max' => 45],
+            [['file'], 'file'],
+            [['result_file'], 'string', 'max' => 300],
         ];
     }
 

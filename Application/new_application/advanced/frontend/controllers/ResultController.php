@@ -8,6 +8,7 @@ use common\models\ResultSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ResultController implements the CRUD actions for Result model.
@@ -66,6 +67,16 @@ class ResultController extends Controller
         $model = new Result();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            // get the instance of the uploaded file
+            $fileName = $model->result_item;
+            $model->file = UploadedFile::getInstance($model, 'file');
+            $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
+
+            // save the path in the db column
+            $model->result_file = 'uploads/' .$fileName. '.' .$model->file->extension;
+            $model->result_date = date('mm-dd-yy');
+            $model->save();
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

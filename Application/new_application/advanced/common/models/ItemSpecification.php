@@ -16,6 +16,8 @@ class ItemSpecification extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $file;
+    
     public static function tableName()
     {
         return 'item_specification';
@@ -30,6 +32,8 @@ class ItemSpecification extends \yii\db\ActiveRecord
             [['itemspec_date', 'itemspec_name'], 'required'],
             [['itemspec_date'], 'safe'],
             [['itemspec_name'], 'string', 'max' => 100],
+            [['file'], 'file'],
+            [['itemspec_file'], 'string', 'max' => 300],
         ];
     }
 

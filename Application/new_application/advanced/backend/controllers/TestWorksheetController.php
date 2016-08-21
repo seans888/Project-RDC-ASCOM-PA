@@ -8,7 +8,7 @@ use common\models\TestWorksheetSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\web\UploadedFile;
 /**
  * TestWorksheetController implements the CRUD actions for TestWorksheet model.
  */
@@ -66,6 +66,15 @@ class TestWorksheetController extends Controller
         $model = new TestWorksheet();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            // get the instance of the uploaded file
+            $fileName = $model->work_item;
+            $model->file = UploadedFile::getInstance($model, 'file');
+            $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
+
+            // save the path in the db column
+            $model->work_file = 'uploads/'.$fileName. '.' .$model->file->extension;
+            $model->save();
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

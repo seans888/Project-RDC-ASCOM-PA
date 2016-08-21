@@ -19,7 +19,7 @@ class TestWorksheetSearch extends TestWorksheet
     {
         return [
             [['id'], 'integer'],
-            [['work_item'], 'safe'],
+            [['work_item', 'work_file'], 'safe'],
         ];
     }
 
@@ -62,7 +62,8 @@ class TestWorksheetSearch extends TestWorksheet
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'work_item', $this->work_item]);
+        $query->andFilterWhere(['like', 'work_item', $this->work_item])
+            ->andFilterWhere(['like', 'work_file', $this->work_file]);
 
         return $dataProvider;
     }

@@ -16,6 +16,7 @@ class TaskOrganization extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $file;
     public static function tableName()
     {
         return 'task_organization';
@@ -30,6 +31,8 @@ class TaskOrganization extends \yii\db\ActiveRecord
             [['taskorg_date', 'taskorg_name'], 'required'],
             [['taskorg_date'], 'safe'],
             [['taskorg_name'], 'string', 'max' => 100],
+            [['file'], 'file'],
+            [['taskorg_file'], 'string', 'max' => 300],
         ];
     }
 

@@ -15,6 +15,7 @@ class TestWorksheet extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $file;
     public static function tableName()
     {
         return 'test_worksheet';
@@ -28,6 +29,8 @@ class TestWorksheet extends \yii\db\ActiveRecord
         return [
             [['work_item'], 'required'],
             [['work_item'], 'string', 'max' => 46],
+            [['file'], 'file'],
+            [['work_file'], 'string', 'max' => 300],
         ];
     }
 

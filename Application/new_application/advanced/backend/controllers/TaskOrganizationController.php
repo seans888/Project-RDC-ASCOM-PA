@@ -8,6 +8,7 @@ use common\models\TaskOrganizationSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * TaskOrganizationController implements the CRUD actions for TaskOrganization model.
@@ -66,6 +67,17 @@ class TaskOrganizationController extends Controller
         $model = new TaskOrganization();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            // get the instance of the uploaded file
+            $fileName = $model->taskorg_name;
+            $model->file = UploadedFile::getInstance($model, 'file');
+            $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
+
+            // save the path in the db column
+            $model->taskorg_file = 'uploads/'.$fileName. '.' .$model->file->extension;
+            $model->taskorg_date = date('mm-dd-yy');
+            $model->save();
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

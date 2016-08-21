@@ -8,6 +8,7 @@ use common\models\ItemSpecificationSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ItemSpecificationController implements the CRUD actions for ItemSpecification model.
@@ -66,6 +67,16 @@ class ItemSpecificationController extends Controller
         $model = new ItemSpecification();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            // get the instance of the uploaded file
+            $fileName = $model->itemspec_name;
+            $model->file = UploadedFile::getInstance($model, 'file');
+            $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
+
+            // save the path in the db column
+            $model->itemspec_file = 'uploads/'.$fileName. '.' .$model->file->extension;
+            $model->itemspec_date = date('mm-dd-yy');
+            $model->save();
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
