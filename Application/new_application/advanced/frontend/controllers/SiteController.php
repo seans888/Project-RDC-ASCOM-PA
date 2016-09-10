@@ -12,6 +12,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\ForbiddenHttpException;
 
 /**
  * Site controller
@@ -72,7 +73,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+
+        if(Yii::$app->user->can('view index')) {
+            return $this->render('index');
+        }else {
+            return $this->render('indexGuest');
+        }
     }
 
     /**

@@ -14,7 +14,7 @@ $this->title = 'RDC ASCOM';
         <p><a class="btn btn-lg btn-success" href="http://localhost/advanced/frontend/web/index.php?r=site%2Flogin">Login</a></p>
     </div>
 
-    <div class="body-content">
+    <!--<div class="body-content">
 
         <div class="row">
             <div class="col-lg-4">
@@ -66,5 +66,5 @@ $this->title = 'RDC ASCOM';
 
                 <p><a class="btn btn-default" href="http://localhost/advanced/frontend/web/index.php?r=result">Access Results here&raquo;</a></p>
             </div>
-		</div>
+		</div>-->
 	</div>
