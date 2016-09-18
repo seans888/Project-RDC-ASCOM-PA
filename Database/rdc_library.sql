@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2016 at 06:26 PM
+-- Generation Time: Sep 18, 2016 at 03:41 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -19,6 +19,81 @@ SET time_zone = "+00:00";
 --
 -- Database: `rdc_library`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auth_assignment`
+--
+
+CREATE TABLE `auth_assignment` (
+  `item_name` varchar(64) NOT NULL,
+  `user_id` varchar(64) NOT NULL,
+  `created_at` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `auth_assignment`
+--
+
+INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
+('user', '1', NULL),
+('user', '3', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auth_item`
+--
+
+CREATE TABLE `auth_item` (
+  `name` varchar(64) NOT NULL,
+  `type` int(11) NOT NULL,
+  `description` text,
+  `rule_name` varchar(64) DEFAULT NULL,
+  `data` text,
+  `created_at` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `auth_item`
+--
+
+INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
+('user', 1, NULL, NULL, NULL, NULL, NULL),
+('view index', 1, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auth_item_child`
+--
+
+CREATE TABLE `auth_item_child` (
+  `parent` varchar(64) NOT NULL,
+  `child` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `auth_item_child`
+--
+
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
+('user', 'view index');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auth_rule`
+--
+
+CREATE TABLE `auth_rule` (
+  `name` varchar(64) NOT NULL,
+  `data` text,
+  `created_at` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -68,7 +143,8 @@ INSERT INTO `directive` (`id`, `directive_date`, `directive_type`, `directive_na
 (30, '2012-09-12', 'DirectiveType1', 'post qualification', ''),
 (31, '2012-12-12', 'acceptance2', 'Pretest1', ''),
 (32, '0000-00-00', 'Acceptance', 'new', 'uploads/new.docx'),
-(33, '0000-00-00', 'Acceptance', 'new1', 'uploads/new1.docx');
+(33, '0000-00-00', 'Acceptance', 'new1', 'uploads/new1.docx'),
+(34, '0000-00-00', 'Acceptance', 'Sample', 'uploads/Sample.docx');
 
 -- --------------------------------------------------------
 
@@ -224,7 +300,8 @@ CREATE TABLE `test_document` (
 --
 
 INSERT INTO `test_document` (`id`, `test_date`, `test_type`, `test_schedule`, `test_name`, `test_worksheet_id`, `task_organization_id`, `result_id`, `implementation_plan_id`, `item_specification_id`, `directive_id`) VALUES
-(1, '0000-00-00', 'Acceptance', '0000-00-00', 'New Test', 1, 1, 1, 3, 1, 11);
+(1, '0000-00-00', 'Acceptance', '0000-00-00', 'New Test', 1, 1, 1, 3, 1, 11),
+(2, '2012-12-12', 'Acceptance', '2012-12-12', 'New Test1', 1, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -271,11 +348,40 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'ebcaranto', 'YGesfi39Sth741fU_xTwT3zd9BnNganm', '$2y$13$s.cnfXXfBwd14h9xR.2oDe7KSMx3JZIVkVEYCm09BqNyNYtQgj3mq', NULL, 'ebcaranto@gmail.com', 10, 1471020871, 1471020871),
-(2, 'newuser', 'LdnqkbIY9RzL6_ZWWH9_djGVicZt7Pul', '$2y$13$p.kcVmaptRgvhr3wc5O./OSA6i2RnSGQvMzKKLLCpdh6fsv4fmYoe', NULL, 'newuser@gmail.com', 10, 1471660708, 1471660708);
+(2, 'newuser', 'LdnqkbIY9RzL6_ZWWH9_djGVicZt7Pul', '$2y$13$p.kcVmaptRgvhr3wc5O./OSA6i2RnSGQvMzKKLLCpdh6fsv4fmYoe', NULL, 'newuser@gmail.com', 10, 1471660708, 1471660708),
+(3, 'admins', '4ToEdf7TJzOWSXhJnGZwxHXbLRBLkTAw', '$2y$13$hyg/l1Xi5/ncRtiF8hF8Leahtv6danrC/lgcK2WPW2FOi5tDUsgOy', NULL, 'admin@gmail.com', 10, 1471835530, 1471835530),
+(4, 'carlos', 'f5bXn6sm3rH4QyHgNljgjtXc1NzGyF4Z', '$2y$13$9GNU..hxTZwJhcEPNhkSVu.4HcYTdqG.VZefl0k/8J2.lYWKW/gZK', NULL, 'carlos@gmail.com', 10, 1471836055, 1471836055);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `auth_assignment`
+--
+ALTER TABLE `auth_assignment`
+  ADD PRIMARY KEY (`item_name`,`user_id`);
+
+--
+-- Indexes for table `auth_item`
+--
+ALTER TABLE `auth_item`
+  ADD PRIMARY KEY (`name`),
+  ADD KEY `rule_name` (`rule_name`),
+  ADD KEY `type` (`type`);
+
+--
+-- Indexes for table `auth_item_child`
+--
+ALTER TABLE `auth_item_child`
+  ADD PRIMARY KEY (`parent`,`child`),
+  ADD KEY `child` (`child`);
+
+--
+-- Indexes for table `auth_rule`
+--
+ALTER TABLE `auth_rule`
+  ADD PRIMARY KEY (`name`);
 
 --
 -- Indexes for table `directive`
@@ -348,7 +454,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `directive`
 --
 ALTER TABLE `directive`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 --
 -- AUTO_INCREMENT for table `employee`
 --
@@ -378,7 +484,7 @@ ALTER TABLE `task_organization`
 -- AUTO_INCREMENT for table `test_document`
 --
 ALTER TABLE `test_document`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `test_worksheet`
 --
@@ -388,7 +494,30 @@ ALTER TABLE `test_worksheet`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `auth_assignment`
+--
+ALTER TABLE `auth_assignment`
+  ADD CONSTRAINT `auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `auth_item`
+--
+ALTER TABLE `auth_item`
+  ADD CONSTRAINT `auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `auth_item_child`
+--
+ALTER TABLE `auth_item_child`
+  ADD CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
