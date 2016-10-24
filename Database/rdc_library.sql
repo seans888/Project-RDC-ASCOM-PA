@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 18, 2016 at 03:41 AM
+-- Generation Time: Oct 24, 2016 at 06:09 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `auth_assignment` (
   `item_name` varchar(64) NOT NULL,
-  `user_id` varchar(64) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `created_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -37,8 +37,7 @@ CREATE TABLE `auth_assignment` (
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
-('user', '1', NULL),
-('user', '3', NULL);
+('user', 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -61,8 +60,18 @@ CREATE TABLE `auth_item` (
 --
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
-('user', 1, NULL, NULL, NULL, NULL, NULL),
-('view index', 1, NULL, NULL, NULL, NULL, NULL);
+('administrative', 1, 'these are permission for administrative division employee', NULL, NULL, NULL, NULL),
+('create-directive', 1, 'allow user to add directive', NULL, NULL, NULL, NULL),
+('create-implan', 1, 'allows user to create an implan document', NULL, NULL, NULL, NULL),
+('create-itemspec', 1, 'allows user to add an itemspecification document', NULL, NULL, NULL, NULL),
+('create-result', 1, 'allows user to create a result document', NULL, NULL, NULL, NULL),
+('create-taskorg', 1, 'allows user to add a taskorg document', NULL, NULL, NULL, NULL),
+('create-worksheet', 1, 'allows user to add a worksheet', NULL, NULL, NULL, NULL),
+('director', 1, 'this user can do everything', NULL, NULL, NULL, NULL),
+('quality-assurance', 1, 'these are permissions for quality assurance division', NULL, NULL, NULL, NULL),
+('tester', 1, 'these are permissions for testers under QAD', NULL, NULL, NULL, NULL),
+('user', 1, 'standard user', NULL, NULL, NULL, NULL),
+('view index', 1, 'this user can view index when looged in', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -80,6 +89,8 @@ CREATE TABLE `auth_item_child` (
 --
 
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
+('director', 'create-directive'),
+('director', 'create-worksheet'),
 ('user', 'view index');
 
 -- --------------------------------------------------------
@@ -160,6 +171,19 @@ CREATE TABLE `employee` (
   `emp_lname` varchar(45) NOT NULL,
   `emp_division` varchar(45) NOT NULL,
   `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `event`
+--
+
+CREATE TABLE `event` (
+  `id` int(11) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `description` text NOT NULL,
+  `created_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -350,7 +374,10 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 (1, 'ebcaranto', 'YGesfi39Sth741fU_xTwT3zd9BnNganm', '$2y$13$s.cnfXXfBwd14h9xR.2oDe7KSMx3JZIVkVEYCm09BqNyNYtQgj3mq', NULL, 'ebcaranto@gmail.com', 10, 1471020871, 1471020871),
 (2, 'newuser', 'LdnqkbIY9RzL6_ZWWH9_djGVicZt7Pul', '$2y$13$p.kcVmaptRgvhr3wc5O./OSA6i2RnSGQvMzKKLLCpdh6fsv4fmYoe', NULL, 'newuser@gmail.com', 10, 1471660708, 1471660708),
 (3, 'admins', '4ToEdf7TJzOWSXhJnGZwxHXbLRBLkTAw', '$2y$13$hyg/l1Xi5/ncRtiF8hF8Leahtv6danrC/lgcK2WPW2FOi5tDUsgOy', NULL, 'admin@gmail.com', 10, 1471835530, 1471835530),
-(4, 'carlos', 'f5bXn6sm3rH4QyHgNljgjtXc1NzGyF4Z', '$2y$13$9GNU..hxTZwJhcEPNhkSVu.4HcYTdqG.VZefl0k/8J2.lYWKW/gZK', NULL, 'carlos@gmail.com', 10, 1471836055, 1471836055);
+(4, 'carlos', 'f5bXn6sm3rH4QyHgNljgjtXc1NzGyF4Z', '$2y$13$9GNU..hxTZwJhcEPNhkSVu.4HcYTdqG.VZefl0k/8J2.lYWKW/gZK', NULL, 'carlos@gmail.com', 10, 1471836055, 1471836055),
+(5, 'qad', '7pDX5EKlAcxjlrA45l6ja6nDJSu1TCM4', '$2y$13$aitVGeFDqj3Sn8GdjDKm0uiwTVzwQj8go90HzZqrh4GjjB7jaq/N6', NULL, 'qad@gmail.com', 10, 1477232750, 1477232750),
+(6, 'director', 'Na2FwSmDIR_ZRYmaYrCTnO7XnXbavADK', '$2y$13$H/jJIJedFURQ6YrP5O/7ouWU.gFAaXlLgxiLPzi8aYzsQzjnYinu.', NULL, 'director@gmail.com', 10, 1477321030, 1477321030),
+(7, 'tester', 'wWA4Sbl6DYhM02ajY1tf_3nHuEiyvGEI', '$2y$13$CJOFs..KwMKbEO52XmzAju4yorU/sYCj5pmpMcN.GcyJIvVtXd3T.', NULL, 'tester@gmail.com', 10, 1477322778, 1477322778);
 
 --
 -- Indexes for dumped tables
@@ -393,6 +420,12 @@ ALTER TABLE `directive`
 -- Indexes for table `employee`
 --
 ALTER TABLE `employee`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `event`
+--
+ALTER TABLE `event`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -461,6 +494,11 @@ ALTER TABLE `directive`
 ALTER TABLE `employee`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `event`
+--
+ALTER TABLE `event`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `implementation_plan`
 --
 ALTER TABLE `implementation_plan`
@@ -494,7 +532,7 @@ ALTER TABLE `test_worksheet`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- Constraints for dumped tables
 --
