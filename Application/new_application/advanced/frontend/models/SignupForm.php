@@ -11,9 +11,13 @@ use backend\models\AuthAssignment;
 class SignupForm extends Model
 {
     public $username;
+	public $firstname;
+	public $lastname;
+	public $rank;
     public $email;
     public $password;
     public $permissions;
+	
 
 
     /**
@@ -26,6 +30,9 @@ class SignupForm extends Model
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
+			['firstname', 'required'],
+			['lastname', 'required'],
+			['rank', 'required'],
 
             ['email', 'trim'],
             ['email', 'required'],
@@ -48,6 +55,9 @@ class SignupForm extends Model
         if ($this->validate()) {
             $user = new User();
             $user->username = $this->username;
+			$user->firstname = $this->firstname;
+			$user->lastname = $this->lastname;
+			$user->rank = $this->rank;
             $user->email = $this->email;
             $user->setPassword($this->password);
             $user->generateAuthKey();
