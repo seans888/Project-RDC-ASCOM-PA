@@ -45,16 +45,27 @@ class SignupForm extends Model
      */
     public function signup()
     {
-        if (!$this->validate()) {
-            return null;
+        if ($this->validate()) {
+            $user = new User();
+            $user->username = $this->username;
+            $user->email = $this->email;
+            $user->setPassword($this->password);
+            $user->generateAuthKey();
+            $user->save();
+
+            //add the permission
+            $permissionList = $_POST['SignupForm']['permissions'];
+
+            foreach ($permissionList as $value) {
+                $newPermission = new AuthAssignment;
+                $newPermission->user_id = $user->id;
+                $newPermission->item_name = $value;
+                $newPermission->save();
+            }
+
+            return $user;
         }
 
-        $user = new User();
-        $user->username = $this->username;
-        $user->email = $this->email;
-        $user->setPassword($this->password);
-        $user->generateAuthKey();
-
-        return $user->save() ? $user : null;
+        return null;
     }
 }
