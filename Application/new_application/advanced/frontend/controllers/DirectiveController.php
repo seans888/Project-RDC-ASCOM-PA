@@ -6,6 +6,7 @@ use Yii;
 use common\models\Directive;
 use common\models\DirectiveSearch;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
@@ -64,26 +65,32 @@ class DirectiveController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Directive();
+        if (Yii::$app->user->can('create-directive')) {
+            $model = new Directive();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            // get the instance of the uploaded file
-            $fileName = $model->directive_name;
-            $model->file = UploadedFile::getInstance($model, 'file');
-            $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
+                // get the instance of the uploaded file
+                $fileName = $model->directive_name;
+                $model->file = UploadedFile::getInstance($model, 'file');
+                $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
 
-            // save the path in the db column
-            $model->directive_file = 'uploads/'.$fileName. '.' .$model->file->extension;
-            $model->directive_date = date('mm-dd-yy');
-            $model->save();
+                // save the path in the db column
+                $model->directive_file = 'uploads/'.$fileName. '.' .$model->file->extension;
+                $model->directive_date = date('mm-dd-yy');
+                $model->save();
 
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
         }
+        else {
+            throw new ForbiddenHttpException;
+        }
+
     }
 
     /**

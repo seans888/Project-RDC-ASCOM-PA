@@ -1,38 +1,17 @@
-#!/usr/bin/env php
-<?php
-/**
- * Yii console bootstrap file.
- *
- * @link http://www.yiiframework.com/
- * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
- */
+#!/usr/bin/env sh
 
-defined('YII_DEBUG') or define('YII_DEBUG', true);
+dir=$(d=${0%[/\\]*}; cd "$d"; cd "../yiisoft/yii2" && pwd)
 
-$composerAutoload = [
-    __DIR__ . '/../vendor/autoload.php', // in yii2-dev repo
-    __DIR__ . '/../../autoload.php', // installed as a composer binary
-];
-$vendorPath = null;
-foreach ($composerAutoload as $autoload) {
-    if (file_exists($autoload)) {
-        require($autoload);
-        $vendorPath = dirname($autoload);
-        break;
-    }
-}
+# See if we are running in Cygwin by checking for cygpath program
+if command -v 'cygpath' >/dev/null 2>&1; then
+	# Cygwin paths start with /cygdrive/ which will break windows PHP,
+	# so we need to translate the dir path to windows format. However
+	# we could be using cygwin PHP which does not require this, so we
+	# test if the path to PHP starts with /cygdrive/ rather than /usr/bin
+	if [[ $(which php) == /cygdrive/* ]]; then
+		dir=$(cygpath -m "$dir");
+	fi
+fi
 
-
-require(__DIR__ . '/Yii.php');
-
-$application = new yii\console\Application([
-    'id' => 'yii-console',
-    'basePath' => __DIR__ . '/console',
-    'controllerNamespace' => 'yii\console\controllers',
-]);
-if ($vendorPath !== null) {
-    $application->setVendorPath($vendorPath);
-}
-$exitCode = $application->run();
-exit($exitCode);
+dir=$(echo $dir | sed 's/ /\ /g')
+"${dir}/yii" "$@"
