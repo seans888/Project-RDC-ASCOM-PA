@@ -35,12 +35,19 @@ class EventController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new EventSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $events = Event::find()->all();
+
+        $tasks = [];
+        foreach ($events as $eve) {
+            $event = new \yii2fullcalendar\models\Event();
+            $event->id = $eve->id;
+            $event->title = $eve->title;
+            $event->start = $eve->created_date;
+            $tasks[] = $event;
+        }
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'events' => $tasks,
         ]);
     }
 
