@@ -7,6 +7,7 @@ use backend\assets\DashboardAsset;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
+use yii\helpers\Url;
 
 DashboardAsset::register($this);
 ?>
@@ -270,9 +271,14 @@ DashboardAsset::register($this);
                                 <div class="pull-left">
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
-                                <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                                </div>
+                                <?php if
+                                (!Yii::$app->user->isGuest){
+                                echo
+                                    '<div class="pull-right">
+                                    <a href="'.Url::to(['site/logout']).'" class="btn btn-default btn-flat"> 
+                                    Signout ('.Yii::$app->user->identity->username .')</a>
+                                </div>';}?>
+
                             </li>
                         </ul>
                     </li>
@@ -508,7 +514,7 @@ DashboardAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">AFP ASCOM-PA <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
