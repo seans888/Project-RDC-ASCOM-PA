@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use dosamigos\datepicker\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Directive */
@@ -12,8 +13,17 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?= $form->field($model, 'directive_date')->textInput() ?>
-
+    <?= $form->field($model, 'directive_date')->widget(
+        DatePicker::className(), [
+        // inline too, not bad
+        'inline' => false,
+        // modify template for custom rendering
+        //'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
+        'clientOptions' => [
+            'autoclose' => true,
+            'format' => 'yyyy-mm-dd'
+        ]
+    ]);?>
     <?= $form->field($model, 'directive_type')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'directive_name')->textInput(['maxlength' => true]) ?>

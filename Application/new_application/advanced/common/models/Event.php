@@ -44,7 +44,7 @@ class Event extends \yii\db\ActiveRecord
             'id' => 'ID',
             'title' => 'Title',
             'description' => 'Description',
-            'created_date' => 'Created Date',
+            'created_date' => 'Date',
         ];
     }
 }

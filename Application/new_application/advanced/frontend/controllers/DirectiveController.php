@@ -77,12 +77,12 @@ class DirectiveController extends Controller
 
                 // save the path in the db column
                 $model->directive_file = 'uploads/'.$fileName. '.' .$model->file->extension;
-                $model->directive_date = date('mm-dd-yy');
+                //$model->directive_date = date('yyyy-mm-dd');
                 $model->save();
 
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
-                return $this->render('create', [
+                return $this->renderAjax('create', [
                     'model' => $model,
                 ]);
             }
