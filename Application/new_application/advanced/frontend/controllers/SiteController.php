@@ -156,7 +156,7 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $model = new SignupForm();
-        $authItems = AuthItem::find()->all();
+        $authItems = AuthItem::findBySql('SELECT * FROM `auth_item` WHERE type = 2')->all();
 
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {

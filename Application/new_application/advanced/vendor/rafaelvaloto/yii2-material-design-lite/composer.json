@@ -1,0 +1,25 @@
+{
+    "name": "rafaelvaloto/yii2-material-design-lite",
+    "description": "Extension AssetBundle google design material for yii2",
+    "type": "yii2-extension",
+	"keywords":["yii", "yii2", "mdl", "material-design-lite", "yii-material", "yii2-material"],
+	"version":"1.0.2",
+    "require": {
+        "yiisoft/yii2": "^2.0",
+	"bower-asset/material-design-lite":"*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "rafaelvaloto",
+            "email": "rafaelvaloto@gmail.com",
+			"role":" developer"
+        }
+    ],
+    "minimum-stability": "stable",
+	"autoload":{
+		"psr-4":{
+			"rafaelvaloto\\mdl\\material\\":""	
+		}
+	}
+}
