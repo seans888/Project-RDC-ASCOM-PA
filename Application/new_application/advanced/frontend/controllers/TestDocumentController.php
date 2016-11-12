@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use yii\web\ForbiddenHttpException;
 
 /**
  * TestDocumentController implements the CRUD actions for TestDocument model.
@@ -64,25 +65,30 @@ class TestDocumentController extends Controller
      */
     public function actionCreate()
     {
-        $model = new TestDocument();
+        if(Yii::$app->user->can('create-testdoc')){
+            $model = new TestDocument();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            // get the instance of the uploaded file
-            $fileName = $model->test_date;
-            $model->file = UploadedFile::getInstance($model, 'file');
-            $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                // get the instance of the uploaded file
+                $fileName = $model->test_date;
+                $model->file = UploadedFile::getInstance($model, 'file');
+                $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
 
-            // save the path in the db column
-            $model->test_date= 'uploads/' .$fileName. '.' .$model->file->extension;
-            //$model->test_date = date('mm-dd-yy');
-            $model->save();
+                // save the path in the db column
+                $model->test_date= 'uploads/' .$fileName. '.' .$model->file->extension;
+                //$model->test_date = date('mm-dd-yy');
+                $model->save();
 
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->renderAjax('create', [
-                'model' => $model,
-            ]);
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->renderAjax('create', [
+                    'model' => $model,
+                ]);
+            }
+        }else {
+            throw new ForbiddenHttpException;
         }
+
     }
 
     /**
@@ -93,15 +99,20 @@ class TestDocumentController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if(Yii::$app->user->can('update-tesdoc')){
+            $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
+        }else{
+            throw new ForbiddenHttpException;
         }
+
     }
 
     /**
@@ -112,9 +123,13 @@ class TestDocumentController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if(Yii::$app->user->can('delete-testdocu')){
+            $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+        }else {
+            throw new ForbiddenHttpException;
+        }
     }
 
     /**

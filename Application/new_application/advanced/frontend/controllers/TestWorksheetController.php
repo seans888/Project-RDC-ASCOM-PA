@@ -6,6 +6,7 @@ use Yii;
 use common\models\TestWorksheet;
 use common\models\TestWorksheetSearch;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
@@ -64,24 +65,29 @@ class TestWorksheetController extends Controller
      */
     public function actionCreate()
     {
-        $model = new TestWorksheet();
+        if(Yii::$app->user->can('create-worksheet')){
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            // get the instance of the uploaded file
-            $fileName = $model->work_item;
-            $model->file = UploadedFile::getInstance($model, 'file');
-            $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
+            $model = new TestWorksheet();
 
-            // save the path in the db column
-            $model->work_file = 'uploads/' .$fileName. '.' .$model->file->extension;
-            
-            $model->save();
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                // get the instance of the uploaded file
+                $fileName = $model->work_item;
+                $model->file = UploadedFile::getInstance($model, 'file');
+                $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
 
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->renderAjax('create', [
-                'model' => $model,
-            ]);
+                // save the path in the db column
+                $model->work_file = 'uploads/' .$fileName. '.' .$model->file->extension;
+
+                $model->save();
+
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->renderAjax('create', [
+                    'model' => $model,
+                ]);
+            }
+        }else {
+            throw new ForbiddenHttpException;
         }
     }
 
@@ -93,14 +99,18 @@ class TestWorksheetController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if(Yii::$app->user->can('update-worksheet')){
+            $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
+        }else {
+            throw new ForbiddenHttpException;
         }
     }
 
@@ -112,9 +122,13 @@ class TestWorksheetController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if(Yii::$app->user->can('delete-worksheet')){
+            $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+        }else{
+            throw new ForbiddenHttpException;
+        }
     }
 
     /**

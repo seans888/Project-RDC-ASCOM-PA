@@ -6,6 +6,7 @@ use Yii;
 use common\models\TaskOrganization;
 use common\models\TaskOrganizationSearch;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
@@ -64,24 +65,28 @@ class TaskOrganizationController extends Controller
      */
     public function actionCreate()
     {
-        $model = new TaskOrganization();
+        if(Yii::$app->user->can('create-taskorg')){
+            $model = new TaskOrganization();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            // get the instance of the uploaded file
-            $fileName = $model->taskorg_name;
-            $model->file = UploadedFile::getInstance($model, 'file');
-            $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                // get the instance of the uploaded file
+                $fileName = $model->taskorg_name;
+                $model->file = UploadedFile::getInstance($model, 'file');
+                $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
 
-            // save the path in the db column
-            $model->taskorg_file = 'uploads/' .$fileName. '.' .$model->file->extension;
-            //$model->taskorg_date = date('mm-dd-yy');
-            $model->save();
+                // save the path in the db column
+                $model->taskorg_file = 'uploads/' .$fileName. '.' .$model->file->extension;
+                //$model->taskorg_date = date('mm-dd-yy');
+                $model->save();
 
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->renderAjax('create', [
-                'model' => $model,
-            ]);
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->renderAjax('create', [
+                    'model' => $model,
+                ]);
+            }
+        }else {
+            throw new ForbiddenHttpException;
         }
     }
 
@@ -93,14 +98,18 @@ class TaskOrganizationController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if(Yii::$app->user->can('update-taskorg')){
+            $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
+        }else {
+            throw new ForbiddenHttpException;
         }
     }
 
@@ -112,9 +121,12 @@ class TaskOrganizationController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        if(Yii::$app->user->can('delete-taskorg')){
+            $this->findModel($id)->delete();
+            return $this->redirect(['index']);
+        }else {
+            throw new ForbiddenHttpException;
+        }
     }
 
     /**

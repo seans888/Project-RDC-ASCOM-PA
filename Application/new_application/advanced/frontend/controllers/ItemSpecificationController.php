@@ -6,6 +6,7 @@ use Yii;
 use common\models\ItemSpecification;
 use common\models\ItemSpecificationSearch;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
@@ -64,25 +65,31 @@ class ItemSpecificationController extends Controller
      */
     public function actionCreate()
     {
-        $model = new ItemSpecification();
+        if(Yii::$app->user->can('create-itemspec'))
+        {
+            $model = new ItemSpecification();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            // get the instance of the uploaded file
-            $fileName = $model->itemspec_name;
-            $model->file = UploadedFile::getInstance($model, 'file');
-            $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                // get the instance of the uploaded file
+                $fileName = $model->itemspec_name;
+                $model->file = UploadedFile::getInstance($model, 'file');
+                $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
 
-            // save the path in the db column
-            $model->itemspec_file = 'uploads/'.$fileName. '.' .$model->file->extension;
-            //$model->itemspec_date = date('mm-dd-yy');
-            $model->save();
+                // save the path in the db column
+                $model->itemspec_file = 'uploads/'.$fileName. '.' .$model->file->extension;
+                //$model->itemspec_date = date('mm-dd-yy');
+                $model->save();
 
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->renderAjax('create', [
-                'model' => $model,
-            ]);
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->renderAjax('create', [
+                    'model' => $model,
+                ]);
+            }
+        }else {
+            throw new ForbiddenHttpException;
         }
+
     }
 
     /**
@@ -93,15 +100,20 @@ class ItemSpecificationController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if(Yii::$app->user->can('update-itemspec')){
+            $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
+        }else {
+            throw new ForbiddenHttpException;
         }
+
     }
 
     /**
@@ -112,9 +124,13 @@ class ItemSpecificationController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if(Yii::$app->user->can('delete-itemspec')){
 
-        return $this->redirect(['index']);
+            $this->findModel($id)->delete();
+            return $this->redirect(['index']);
+        }else{
+            throw new ForbiddenHttpException;
+        }
     }
 
     /**
