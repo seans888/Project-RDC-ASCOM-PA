@@ -6,6 +6,7 @@ use Yii;
 use common\models\ImplementationPlan;
 use common\models\ImplementationPlanSearch;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
@@ -64,25 +65,29 @@ class ImplementationPlanController extends Controller
      */
     public function actionCreate()
     {
-        $model = new ImplementationPlan();
+        if (Yii::$app->user->can('create-implan')) {
+            $model = new ImplementationPlan();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            // get the instance of the uploaded file
-            $fileName = $model->implan_name;
-            $model->file = UploadedFile::getInstance($model, 'file');
-            $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
+                // get the instance of the uploaded file
+                $fileName = $model->implan_name;
+                $model->file = UploadedFile::getInstance($model, 'file');
+                $model->file->saveAs('uploads/'.$fileName. '.' .$model->file->extension);
 
-            // save the path in the db column
-            $model->implan_file = 'uploads/' .$fileName. '.' .$model->file->extension;
-            $model->implan_date = date('mm-dd-yy');
-            $model->save();
+                // save the path in the db column
+                $model->implan_file = 'uploads/' .$fileName. '.' .$model->file->extension;
+                //$model->implan_date = date('mm-dd-yy');
+                $model->save();
 
-            return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->renderAjax('create', [
+                    'model' => $model,
+                ]);
+            }
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            throw new ForbiddenHttpException;
         }
     }
 
@@ -94,14 +99,18 @@ class ImplementationPlanController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if (Yii::$app->user->can('update-implan')) {
+            $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            throw new ForbiddenHttpException;
         }
     }
 
@@ -113,9 +122,13 @@ class ImplementationPlanController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if (Yii::$app->user->can('delete-implan')) {
+            $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+        } else {
+            throw new ForbiddenHttpException;
+        }
     }
 
     /**

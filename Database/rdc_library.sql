@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2016 at 06:09 PM
+-- Generation Time: Nov 12, 2016 at 02:36 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -37,7 +37,11 @@ CREATE TABLE `auth_assignment` (
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
-('user', 3, NULL);
+('Administrative', 17, NULL),
+('Director', 13, NULL),
+('QAD Tester', 15, NULL),
+('Quality Assurance Division Chief', 14, NULL),
+('Quality Assurance Employee', 16, NULL);
 
 -- --------------------------------------------------------
 
@@ -60,16 +64,32 @@ CREATE TABLE `auth_item` (
 --
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
-('administrative', 1, 'these are permission for administrative division employee', NULL, NULL, NULL, NULL),
+('Administrative', 2, 'these are permission for administrative division employee', NULL, NULL, NULL, NULL),
 ('create-directive', 1, 'allow user to add directive', NULL, NULL, NULL, NULL),
 ('create-implan', 1, 'allows user to create an implan document', NULL, NULL, NULL, NULL),
 ('create-itemspec', 1, 'allows user to add an itemspecification document', NULL, NULL, NULL, NULL),
 ('create-result', 1, 'allows user to create a result document', NULL, NULL, NULL, NULL),
 ('create-taskorg', 1, 'allows user to add a taskorg document', NULL, NULL, NULL, NULL),
+('create-testdoc', 1, 'allows user to create test document ', NULL, NULL, NULL, NULL),
 ('create-worksheet', 1, 'allows user to add a worksheet', NULL, NULL, NULL, NULL),
-('director', 1, 'this user can do everything', NULL, NULL, NULL, NULL),
-('quality-assurance', 1, 'these are permissions for quality assurance division', NULL, NULL, NULL, NULL),
-('tester', 1, 'these are permissions for testers under QAD', NULL, NULL, NULL, NULL),
+('delete-directive', 1, 'allows user to delete a directive', NULL, NULL, NULL, NULL),
+('delete-implan', 1, 'allows user to delete an implementation plan', NULL, NULL, NULL, NULL),
+('delete-itemspec', 1, 'allows user to delete item specification', NULL, NULL, NULL, NULL),
+('delete-result', 1, 'allows user to delete result document', NULL, NULL, NULL, NULL),
+('delete-taskorg', 1, 'allows user to delete task organization ', NULL, NULL, NULL, NULL),
+('delete-testdocu', 1, 'allows user to delete test document ', NULL, NULL, NULL, NULL),
+('delete-worksheet', 1, 'allows user to delete test worksheets', NULL, NULL, NULL, NULL),
+('Director', 2, 'this user can do everything', NULL, NULL, NULL, NULL),
+('QAD Tester', 2, 'these are permissions for testers under QAD', NULL, NULL, NULL, NULL),
+('Quality Assurance Division Chief', 2, 'this permission is for quality assurance division chief ', NULL, NULL, NULL, NULL),
+('Quality Assurance Employee', 2, 'these are permissions for quality assurance division employee', NULL, NULL, NULL, NULL),
+('update-directive', 1, 'allows user to update directive', NULL, NULL, NULL, NULL),
+('update-implan', 1, 'allows user to update implementation plan', NULL, NULL, NULL, NULL),
+('update-itemspec', 1, 'allows user to update implementation plan ', NULL, NULL, NULL, NULL),
+('update-results', 1, 'allows user to update result document', NULL, NULL, NULL, NULL),
+('update-taskorg', 1, 'allows user to update task organization', NULL, NULL, NULL, NULL),
+('update-testdoc', 1, 'allows user to update test document', NULL, NULL, NULL, NULL),
+('update-worksheet', 1, 'allows user to test worksheet ', NULL, NULL, NULL, NULL),
 ('user', 1, 'standard user', NULL, NULL, NULL, NULL),
 ('view index', 1, 'this user can view index when looged in', NULL, NULL, NULL, NULL);
 
@@ -89,8 +109,67 @@ CREATE TABLE `auth_item_child` (
 --
 
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
-('director', 'create-directive'),
-('director', 'create-worksheet'),
+('Administrative', 'create-directive'),
+('Administrative', 'update-directive'),
+('Administrative', 'view index'),
+('Director', 'create-directive'),
+('Director', 'create-implan'),
+('Director', 'create-itemspec'),
+('Director', 'create-result'),
+('Director', 'create-taskorg'),
+('Director', 'create-testdoc'),
+('Director', 'create-worksheet'),
+('Director', 'delete-directive'),
+('Director', 'delete-implan'),
+('Director', 'delete-itemspec'),
+('Director', 'delete-result'),
+('Director', 'delete-taskorg'),
+('Director', 'delete-testdocu'),
+('Director', 'delete-worksheet'),
+('Director', 'update-directive'),
+('Director', 'update-implan'),
+('Director', 'update-itemspec'),
+('Director', 'update-results'),
+('Director', 'update-taskorg'),
+('Director', 'update-testdoc'),
+('Director', 'update-worksheet'),
+('Director', 'view index'),
+('QAD Tester', 'update-itemspec'),
+('QAD Tester', 'update-results'),
+('QAD Tester', 'update-taskorg'),
+('QAD Tester', 'update-worksheet'),
+('QAD Tester', 'view index'),
+('Quality Assurance Division Chief', 'create-implan'),
+('Quality Assurance Division Chief', 'create-itemspec'),
+('Quality Assurance Division Chief', 'create-result'),
+('Quality Assurance Division Chief', 'create-taskorg'),
+('Quality Assurance Division Chief', 'create-worksheet'),
+('Quality Assurance Division Chief', 'delete-implan'),
+('Quality Assurance Division Chief', 'delete-itemspec'),
+('Quality Assurance Division Chief', 'delete-result'),
+('Quality Assurance Division Chief', 'delete-taskorg'),
+('Quality Assurance Division Chief', 'delete-worksheet'),
+('Quality Assurance Division Chief', 'update-implan'),
+('Quality Assurance Division Chief', 'update-itemspec'),
+('Quality Assurance Division Chief', 'update-results'),
+('Quality Assurance Division Chief', 'update-taskorg'),
+('Quality Assurance Division Chief', 'update-worksheet'),
+('Quality Assurance Division Chief', 'view index'),
+('Quality Assurance Employee', 'create-implan'),
+('Quality Assurance Employee', 'create-itemspec'),
+('Quality Assurance Employee', 'create-taskorg'),
+('Quality Assurance Employee', 'create-worksheet'),
+('Quality Assurance Employee', 'delete-implan'),
+('Quality Assurance Employee', 'delete-itemspec'),
+('Quality Assurance Employee', 'delete-result'),
+('Quality Assurance Employee', 'delete-taskorg'),
+('Quality Assurance Employee', 'delete-worksheet'),
+('Quality Assurance Employee', 'update-implan'),
+('Quality Assurance Employee', 'update-itemspec'),
+('Quality Assurance Employee', 'update-results'),
+('Quality Assurance Employee', 'update-taskorg'),
+('Quality Assurance Employee', 'update-worksheet'),
+('Quality Assurance Employee', 'view index'),
 ('user', 'view index');
 
 -- --------------------------------------------------------
@@ -155,7 +234,9 @@ INSERT INTO `directive` (`id`, `directive_date`, `directive_type`, `directive_na
 (31, '2012-12-12', 'acceptance2', 'Pretest1', ''),
 (32, '0000-00-00', 'Acceptance', 'new', 'uploads/new.docx'),
 (33, '0000-00-00', 'Acceptance', 'new1', 'uploads/new1.docx'),
-(34, '0000-00-00', 'Acceptance', 'Sample', 'uploads/Sample.docx');
+(34, '0000-00-00', 'Acceptance', 'Sample', 'uploads/Sample.docx'),
+(35, '0000-00-00', 'Pretest', 'Sample directive', ''),
+(37, '0000-00-00', 'Pretest', 'Sample directive', 'uploads/Sample directive.docx');
 
 -- --------------------------------------------------------
 
@@ -183,8 +264,20 @@ CREATE TABLE `event` (
   `id` int(11) NOT NULL,
   `title` varchar(100) NOT NULL,
   `description` text NOT NULL,
-  `created_date` datetime NOT NULL
+  `created_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `event`
+--
+
+INSERT INTO `event` (`id`, `title`, `description`, `created_date`) VALUES
+(1, 'event title', 'event', '2016-10-25'),
+(2, 'event title 2', 'event 2', '2016-10-25'),
+(3, 'CSPROJ Presentation', 'Midterm presentation', '2016-10-25'),
+(4, 'event', 'event description', '2016-10-27'),
+(5, 'a very long event for this date', 'asdasd', '2016-10-28'),
+(6, 'asd', 'asd', '2016-10-27');
 
 -- --------------------------------------------------------
 
@@ -325,7 +418,8 @@ CREATE TABLE `test_document` (
 
 INSERT INTO `test_document` (`id`, `test_date`, `test_type`, `test_schedule`, `test_name`, `test_worksheet_id`, `task_organization_id`, `result_id`, `implementation_plan_id`, `item_specification_id`, `directive_id`) VALUES
 (1, '0000-00-00', 'Acceptance', '0000-00-00', 'New Test', 1, 1, 1, 3, 1, 11),
-(2, '2012-12-12', 'Acceptance', '2012-12-12', 'New Test1', 1, 1, 1, 1, 1, 1);
+(2, '2012-12-12', 'Acceptance', '2012-12-12', 'New Test1', 1, 1, 1, 1, 1, 1),
+(3, '2012-12-12', 'asd', '2012-12-12', 'asd', 2, 2, 3, 4, 4, 4);
 
 -- --------------------------------------------------------
 
@@ -356,6 +450,9 @@ INSERT INTO `test_worksheet` (`id`, `work_item`, `work_file`) VALUES
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
+  `firstname` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `lastname` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `rank` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `auth_key` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -370,14 +467,12 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'ebcaranto', 'YGesfi39Sth741fU_xTwT3zd9BnNganm', '$2y$13$s.cnfXXfBwd14h9xR.2oDe7KSMx3JZIVkVEYCm09BqNyNYtQgj3mq', NULL, 'ebcaranto@gmail.com', 10, 1471020871, 1471020871),
-(2, 'newuser', 'LdnqkbIY9RzL6_ZWWH9_djGVicZt7Pul', '$2y$13$p.kcVmaptRgvhr3wc5O./OSA6i2RnSGQvMzKKLLCpdh6fsv4fmYoe', NULL, 'newuser@gmail.com', 10, 1471660708, 1471660708),
-(3, 'admins', '4ToEdf7TJzOWSXhJnGZwxHXbLRBLkTAw', '$2y$13$hyg/l1Xi5/ncRtiF8hF8Leahtv6danrC/lgcK2WPW2FOi5tDUsgOy', NULL, 'admin@gmail.com', 10, 1471835530, 1471835530),
-(4, 'carlos', 'f5bXn6sm3rH4QyHgNljgjtXc1NzGyF4Z', '$2y$13$9GNU..hxTZwJhcEPNhkSVu.4HcYTdqG.VZefl0k/8J2.lYWKW/gZK', NULL, 'carlos@gmail.com', 10, 1471836055, 1471836055),
-(5, 'qad', '7pDX5EKlAcxjlrA45l6ja6nDJSu1TCM4', '$2y$13$aitVGeFDqj3Sn8GdjDKm0uiwTVzwQj8go90HzZqrh4GjjB7jaq/N6', NULL, 'qad@gmail.com', 10, 1477232750, 1477232750),
-(6, 'director', 'Na2FwSmDIR_ZRYmaYrCTnO7XnXbavADK', '$2y$13$H/jJIJedFURQ6YrP5O/7ouWU.gFAaXlLgxiLPzi8aYzsQzjnYinu.', NULL, 'director@gmail.com', 10, 1477321030, 1477321030),
-(7, 'tester', 'wWA4Sbl6DYhM02ajY1tf_3nHuEiyvGEI', '$2y$13$CJOFs..KwMKbEO52XmzAju4yorU/sYCj5pmpMcN.GcyJIvVtXd3T.', NULL, 'tester@gmail.com', 10, 1477322778, 1477322778);
+INSERT INTO `user` (`id`, `firstname`, `lastname`, `rank`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `created_at`, `updated_at`) VALUES
+(13, 'first name', 'last name', 'Ltc', 'director', '0_Vdi7SbIKXKi-xVfx9pUqTXmZor21Ra', '$2y$13$DubMVNpC8YVhI8uzn6F7vuH2xTZlWsPFQ0ckDqF3o/M78eo9iDnwe', NULL, 'director@gmail.com', 10, 1478876734, 1478876734),
+(14, 'first name', 'first name', 'Major', 'qadchief', 'aTA0Zvw_wHz29wozf74R2v_7AP3rC7-3', '$2y$13$XdEGVQ8D2tu2A312RNxNXuWlQyig0doosrjD/f/xu2TYBarA2CGrm', NULL, 'qad@gmail.com', 10, 1478876894, 1478876894),
+(15, 'first name', 'last name', 'civilian', 'qadtester', 'E6OwIwO0v66S-UR9fCEUCXeB81Zc5vmE', '$2y$13$hKhuYYP4XmGQmsHR8CW1teEVVL.ktcyjHcMCi4EJAxBPIPER4tcpi', NULL, 'tester@gmail.com', 10, 1478876944, 1478876944),
+(16, 'first name', 'last name', 'Private', 'qademployee', 'qWJoHFJC2PrxbJ3KahXz1I-GFQCP5pcn', '$2y$13$veU9GuXTinNtZKmzQKQBtuv.id7oYCa.vY6e.rFNUuuycfWg3zZie', NULL, 'qade@gmail.com', 10, 1478877039, 1478877039),
+(17, 'first name', 'last name', 'Captain', 'administrative', 'c31PCfHULH2EVkcKEKABfbtumscplNNz', '$2y$13$lqoLIP3upEFQ/xhRGrdQ2uCcIzxSoY3NvRYpxca/sk9w.1KnlniTm', NULL, 'admin@gmail.com', 10, 1478877132, 1478877132);
 
 --
 -- Indexes for dumped tables
@@ -487,7 +582,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `directive`
 --
 ALTER TABLE `directive`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT for table `employee`
 --
@@ -497,7 +592,7 @@ ALTER TABLE `employee`
 -- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `implementation_plan`
 --
@@ -522,7 +617,7 @@ ALTER TABLE `task_organization`
 -- AUTO_INCREMENT for table `test_document`
 --
 ALTER TABLE `test_document`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `test_worksheet`
 --
@@ -532,7 +627,7 @@ ALTER TABLE `test_worksheet`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- Constraints for dumped tables
 --

@@ -74,12 +74,12 @@ class ItemSpecificationController extends Controller
 
             // save the path in the db column
             $model->itemspec_file = 'uploads/'.$fileName. '.' .$model->file->extension;
-            $model->itemspec_date = date('mm-dd-yy');
+            //$model->itemspec_date = date('mm-dd-yy');
             $model->save();
 
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('create', [
+            return $this->renderAjax('create', [
                 'model' => $model,
             ]);
         }

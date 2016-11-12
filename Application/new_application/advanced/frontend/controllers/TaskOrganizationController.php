@@ -74,12 +74,12 @@ class TaskOrganizationController extends Controller
 
             // save the path in the db column
             $model->taskorg_file = 'uploads/' .$fileName. '.' .$model->file->extension;
-            $model->taskorg_date = date('mm-dd-yy');
+            //$model->taskorg_date = date('mm-dd-yy');
             $model->save();
 
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('create', [
+            return $this->renderAjax('create', [
                 'model' => $model,
             ]);
         }

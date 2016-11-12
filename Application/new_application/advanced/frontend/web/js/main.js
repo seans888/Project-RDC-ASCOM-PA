@@ -3,6 +3,15 @@
  */
 $(function(){
 
+
+    // get the click event of the create button
+    $('#modalButton').click(function () {
+        $('#modal').modal('show')
+            .find('#modalContent')
+            .load($(this).attr('value'));
+    });
+});
+
     // add the event to clicked date in the calendar
     $(document).on('click','.fc-day', function(){
         var date = $(this).attr('data-date');
@@ -13,11 +22,3 @@ $(function(){
             .html(data);
         })
     });
-
-    // get the click event of the create button
-    $('#modalButton').click(function () {
-       $('#modal').modal('show')
-           .find('#modalContent')
-           .load($(this).attr('value'));
-    });
-});

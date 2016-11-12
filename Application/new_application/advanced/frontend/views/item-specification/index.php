@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\bootstrap\Modal;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\ItemSpecificationSearch */
@@ -16,8 +18,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Item Specification', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::button('Create Item Specifications', ['value'=>Url::to('index.php?r=item-specification/create'),'class' => 'btn btn-success', 'id'=>'modalButton']) ?>
     </p>
+
+    <?php
+    Modal::begin([
+        'header' => '<h4>Item Specification</h4>',
+        'id' => 'modal',
+        'size' => 'modal-lg'
+    ]);
+
+    echo "<div id='modalContent'></div>";
+
+    Modal::end();
+    ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
