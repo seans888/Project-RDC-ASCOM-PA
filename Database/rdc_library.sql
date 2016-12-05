@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2016 at 02:36 PM
+-- Generation Time: Dec 05, 2016 at 11:42 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -241,6 +241,62 @@ INSERT INTO `directive` (`id`, `directive_date`, `directive_type`, `directive_na
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `dv_category`
+--
+
+CREATE TABLE `dv_category` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dv_document`
+--
+
+CREATE TABLE `dv_document` (
+  `id` int(11) NOT NULL,
+  `categoryId` int(11) DEFAULT '0',
+  `ownerId` int(11) DEFAULT '0',
+  `realname` varchar(255) NOT NULL,
+  `mimeType` varchar(255) NOT NULL,
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `description` varchar(255) DEFAULT NULL,
+  `comment` text,
+  `status` int(11) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dv_log`
+--
+
+CREATE TABLE `dv_log` (
+  `id` int(11) NOT NULL,
+  `documentId` int(11) NOT NULL,
+  `modifiedOn` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modifiedBy` int(11) NOT NULL DEFAULT '0',
+  `note` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dv_permission`
+--
+
+CREATE TABLE `dv_permission` (
+  `id` int(11) NOT NULL,
+  `documentId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL DEFAULT '0',
+  `rights` smallint(6) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `employee`
 --
 
@@ -345,7 +401,8 @@ CREATE TABLE `migration` (
 
 INSERT INTO `migration` (`version`, `apply_time`) VALUES
 ('m000000_000000_base', 1470902919),
-('m130524_201442_init', 1470902926);
+('m130524_201442_init', 1470902926),
+('m150202_124833_init', 1480898662);
 
 -- --------------------------------------------------------
 
@@ -512,6 +569,33 @@ ALTER TABLE `directive`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `dv_category`
+--
+ALTER TABLE `dv_category`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dv_document`
+--
+ALTER TABLE `dv_document`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_doccat_doc` (`categoryId`);
+
+--
+-- Indexes for table `dv_log`
+--
+ALTER TABLE `dv_log`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_doc_log` (`documentId`);
+
+--
+-- Indexes for table `dv_permission`
+--
+ALTER TABLE `dv_permission`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_doc_perm` (`documentId`);
+
+--
 -- Indexes for table `employee`
 --
 ALTER TABLE `employee`
@@ -584,6 +668,26 @@ ALTER TABLE `user`
 ALTER TABLE `directive`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
+-- AUTO_INCREMENT for table `dv_category`
+--
+ALTER TABLE `dv_category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `dv_document`
+--
+ALTER TABLE `dv_document`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `dv_log`
+--
+ALTER TABLE `dv_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `dv_permission`
+--
+ALTER TABLE `dv_permission`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
@@ -650,6 +754,24 @@ ALTER TABLE `auth_item`
 ALTER TABLE `auth_item_child`
   ADD CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `dv_document`
+--
+ALTER TABLE `dv_document`
+  ADD CONSTRAINT `fk_doccat_doc` FOREIGN KEY (`categoryId`) REFERENCES `dv_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `dv_log`
+--
+ALTER TABLE `dv_log`
+  ADD CONSTRAINT `fk_doc_log` FOREIGN KEY (`documentId`) REFERENCES `dv_document` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `dv_permission`
+--
+ALTER TABLE `dv_permission`
+  ADD CONSTRAINT `fk_doc_perm` FOREIGN KEY (`documentId`) REFERENCES `dv_document` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
