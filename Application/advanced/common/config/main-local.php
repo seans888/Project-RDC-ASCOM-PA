@@ -3,7 +3,7 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=rdc_library',
+            'dsn' => 'mysql:host=localhost;dbname=rdc_dms',
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8',

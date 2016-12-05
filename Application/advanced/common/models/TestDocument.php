@@ -8,16 +8,10 @@ use Yii;
  * This is the model class for table "test_document".
  *
  * @property integer $id
- * @property string $test_date
- * @property string $test_type
- * @property string $test_schedule
- * @property string $test_name
- * @property integer $test_worksheet_id
- * @property integer $task_organization_id
- * @property integer $result_id
- * @property integer $implementation_plan_id
- * @property integer $item_specification_id
- * @property integer $directive_id
+ * @property string $docu_date
+ * @property string $docu_name
+ * @property integer $document_type
+ * @property integer $test_project_id
  */
 class TestDocument extends \yii\db\ActiveRecord
 {
@@ -35,11 +29,10 @@ class TestDocument extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'test_date', 'test_type', 'test_schedule', 'test_name', 'test_worksheet_id', 'task_organization_id', 'result_id', 'implementation_plan_id', 'item_specification_id', 'directive_id'], 'required'],
-            [['id', 'test_worksheet_id', 'task_organization_id', 'result_id', 'implementation_plan_id', 'item_specification_id', 'directive_id'], 'integer'],
-            [['test_date', 'test_schedule'], 'safe'],
-            [['test_type'], 'string', 'max' => 20],
-            [['test_name'], 'string', 'max' => 50],
+            [['docu_date', 'docu_name', 'document_type', 'test_project_id'], 'required'],
+            [['docu_date'], 'safe'],
+            [['document_type', 'test_project_id'], 'integer'],
+            [['docu_name'], 'string', 'max' => 255],
         ];
     }
 
@@ -50,16 +43,15 @@ class TestDocument extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'test_date' => 'Test Date',
-            'test_type' => 'Test Type',
-            'test_schedule' => 'Test Schedule',
-            'test_name' => 'Test Name',
-            'test_worksheet_id' => 'Test Worksheet ID',
-            'task_organization_id' => 'Task Organization ID',
-            'result_id' => 'Result ID',
-            'implementation_plan_id' => 'Implementation Plan ID',
-            'item_specification_id' => 'Item Specification ID',
-            'directive_id' => 'Directive ID',
+            'docu_date' => 'Docu Date',
+            'docu_name' => 'Docu Name',
+            'document_type' => 'Document Type',
+            'test_project_id' => 'Test Project ID',
         ];
+    }
+
+    public function getType()
+    {
+        return $this->hasOne(DocumentType::className(), ['id' => 'document_type']);
     }
 }

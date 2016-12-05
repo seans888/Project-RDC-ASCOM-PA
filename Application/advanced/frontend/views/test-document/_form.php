@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use common\models\DocumentType;
+use common\models\TestProject;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\TestDocument */
@@ -12,27 +15,20 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id')->textInput() ?>
+    <?= $form->field($model, 'docu_date')->textInput()->hint('Date written on document')->label('Date') ?>
 
-    <?= $form->field($model, 'test_date')->textInput() ?>
+    <?= $form->field($model, 'docu_name')->textInput(['maxlength' => true])
+        ->hint('Enter title of document')->label('Document name or title') ?>
 
-    <?= $form->field($model, 'test_type')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'document_type')->dropDownList(
+        ArrayHelper::map(DocumentType::find()->all(),'id','type_name'),
+        ['prompt'=>'--none--'])->hint('Choose type of document') ?>
 
-    <?= $form->field($model, 'test_schedule')->textInput() ?>
-
-    <?= $form->field($model, 'test_name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'test_worksheet_id')->textInput() ?>
-
-    <?= $form->field($model, 'task_organization_id')->textInput() ?>
-
-    <?= $form->field($model, 'result_id')->textInput() ?>
-
-    <?= $form->field($model, 'implementation_plan_id')->textInput() ?>
-
-    <?= $form->field($model, 'item_specification_id')->textInput() ?>
-
-    <?= $form->field($model, 'directive_id')->textInput() ?>
+    <?= $form->field($model, 'test_project_id')->dropDownList(
+        ArrayHelper::map(TestProject::find()->all(), 'id', 'project_name'),
+        ['prompt' => '--please choose test project--'])
+        ->hint('Choose which test project this document is in')
+        ->label('Test Project Folder')?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -6,6 +6,8 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\ArrayHelper;
+use common\models\UserType;
 
 $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;
@@ -20,6 +22,15 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
                 <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+
+                <?= $form->field($model, 'first_name') ?>
+
+                <?= $form->field($model, 'last_name') ?>
+
+                <?= $form->field($model, 'user_type_id')->dropDownList(
+                    ArrayHelper::map(UserType::find()->all(),'id','user_type_name'),
+                    ['prompt'=>'select user type']
+                ) ?>
 
                 <?= $form->field($model, 'email') ?>
 
