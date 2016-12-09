@@ -2,9 +2,10 @@
 
 use yii\helpers\Html;
 use kartik\grid\GridView;
-use frontend\controllers\TestDocumentController;
 use common\models\ApprovalSearch;
 use common\models\SignatureSearch;
+use yii\bootstrap\Modal;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\TestDocumentSearch */
@@ -14,6 +15,18 @@ use common\models\SignatureSearch;
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="test-document-index">
+
+    <?php
+    Modal::begin([
+        'header'=>'<h1>New Test Document</h1>',
+        'id' => 'modal2' ,
+        'size' => 'modal-lg',
+    ]);
+    echo "<div id = 'modalContent2'></div>";
+
+    Modal::end();
+    ?>
+
     <?= GridView::widget([
         'condensed' => true,
         'hover' => true,
@@ -62,8 +75,8 @@ use common\models\SignatureSearch;
         ],
         'panel' => [
             'heading' => '<i class="glyphicon glyphicon-file"></i> Document',
-            'before' => Html::a('<i class="glyphicon glyphicon-plus-sign"></i> New Test Document',
-                ['test-document/create'], ['class' => 'btn btn-success']),
+            'before' => Html::button('<i class="glyphicon glyphicon-plus-sign"></i> New Test Document',
+                ['value'=>Url::toRoute('test-document/create'),'class' => 'btn btn-success','id'=>'modalButton2']),
             'after' => false,
             'footer' => false,
             'footerOptions' => [

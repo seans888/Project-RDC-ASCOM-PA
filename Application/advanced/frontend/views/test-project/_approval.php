@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use kartik\grid\GridView;
+use yii\helpers\Url;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\ApprovalSearch */
@@ -11,6 +13,26 @@ use kartik\grid\GridView;
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="approval-index">
+    <?php
+    Modal::begin([
+        'header'=>'<h1>For Approval</h1>',
+        'id' => 'modal3' ,
+        'size' => 'modal-lg',
+    ]);
+    echo "<div id = 'modalContent3'></div>";
+
+    Modal::end();
+    ?>
+    <?php
+    Modal::begin([
+        'header'=>'<h1>For Signature</h1>',
+        'id' => 'modal4' ,
+        'size' => 'modal-lg',
+    ]);
+    echo "<div id = 'modalContent4'></div>";
+
+    Modal::end();
+    ?>
     <div class="col-md-6">
         <?= GridView::widget([
             'export' => false,
@@ -35,7 +57,8 @@ use kartik\grid\GridView;
                 ],
             ],
             'panel' => [
-                'before' => Html::a('Notify for Approval', ['approval/create'], ['class' => 'btn btn-default',]),
+                'before' => Html::button('Notify for Approval',
+                    ['value' =>Url::toRoute('approval/create'), 'class' => 'btn btn-default', 'id' => 'modalButton3']),
                 'after' => false,
                 'footer' => false,
                 'type' => 'info'
@@ -70,7 +93,8 @@ use kartik\grid\GridView;
                 ],
             ],
             'panel' => [
-                'before' => Html::a('Ask for Signature', ['signature/create'], ['class' => 'btn btn-default']),
+                'before' => Html::button('For Signature',
+                    ['value' =>Url::toRoute('signature/create'), 'class' => 'btn btn-default', 'id' => 'modalButton4']),
                 'after' => false,
                 'footer' => false,
                 'type' => 'info'
