@@ -10,7 +10,7 @@ use common\models\SignatureSearch;
 /* @var $searchModel common\models\TestDocumentSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Test Documents';
+//$this->title = 'Test Documents';
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="test-document-index">
@@ -18,7 +18,7 @@ $this->title = 'Test Documents';
         'condensed' => true,
         'hover' => true,
         'export' => false,
-        'summary' => 'Documents',
+        //'summary' => 'Documents',
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
         'columns' => [
@@ -60,5 +60,16 @@ $this->title = 'Test Documents';
                 'controller' => 'test-document'
             ]
         ],
+        'panel' => [
+            'heading' => '<i class="glyphicon glyphicon-file"></i> Document',
+            'before' => Html::a('<i class="glyphicon glyphicon-plus-sign"></i> New Test Document',
+                ['test-document/create'], ['class' => 'btn btn-success']),
+            'after' => false,
+            'footer' => false,
+            'footerOptions' => [
+                'class' => 'panel panel-primary'
+            ],
+            'type' => 'primary'
+        ]
     ]); ?>
 </div>
