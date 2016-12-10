@@ -37,7 +37,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             [
                 'class' => 'kartik\grid\ExpandRowColumn',
-                //'expandIcon' => '<span class="glyphicon glyphicon-menu-right"></span>',
+                'expandIcon' => '<span class="glyphicon glyphicon-menu-right"></span>',
+                'collapseIcon' => '<span class="glyphicon glyphicon-menu-down"></span>',
                 'value' => function ($model, $key, $index, $column) {
                     return GridView::ROW_COLLAPSED;
                 },
@@ -52,10 +53,36 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]);
                 },
             ],
-            'project_name:text:Name',
-            'project_type:text:Type',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                //'attribute' => 'project_name:text:Name',
+                'attribute' => 'project_name',
+                'label' => 'Name',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Filter'
+                ]
+            ],
+            [
+                //'attribute' => 'project_type:text:Type',
+                'attribute' => 'project_type',
+                'label' => 'Type',
+                'filterInputOptions' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Filter'
+                ]
+            ],
+            [
+                'class' => '\kartik\grid\ActionColumn',
+                'viewOptions' => [
+                    'label' => '<span class="glyphicon glyphicon-eye-open"></span>',
+                    ],
+                'updateOptions' => [
+                    'label' => '<span class="glyphicon glyphicon-edit"></span>',
+                    ],
+                'deleteOptions' => [
+                    'label' => '<span class="glyphicon glyphicon-trash"></span>',
+                    ]
+            ],
         ],
         'panel' => [
             //<span class="glyphicon glyphicon-folder-open"/>
@@ -65,6 +92,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'footer' => '<h6>End of test projects</h6>',
             'after' => false,
         ],
-    ]); ?>
+    ]);?>
 
 </div>

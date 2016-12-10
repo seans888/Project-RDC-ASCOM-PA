@@ -12,15 +12,20 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'sig_title')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'sig_title')->textInput(['maxlength' => true])
+        ->hint('Title of approver')->label('Position')?>
 
-    <?= $form->field($model, 'sig_order')->textInput() ?>
+    <?= $form->field($model, 'sig_order')->textInput()
+        ->hint('Order of signature')->label('Order')?>
 
-    <?= $form->field($model, 'sig_comment')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'sig_comment')->textInput(['maxlength' => true])
+        ->hint('Comment on signature')->label('Comments')?>
 
-    <?= $form->field($model, 'sig_date_signed')->textInput() ?>
+    <?= $form->field($model, 'sig_date_signed')->textInput()
+        ->hint('When was document signed')->label('Date')?>
 
-    <?= $form->field($model, 'test_document_id')->textInput() ?>
+    <?= $form->field($model, 'test_document_id')->textInput()
+        ->hint('Signature for which document')->label('For test document')?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -40,6 +40,8 @@ use yii\helpers\Url;
             'id',
             [
                 'class' => 'kartik\grid\ExpandRowColumn',
+                'expandIcon' => '<span class="glyphicon glyphicon-menu-right"></span>',
+                'collapseIcon' => '<span class="glyphicon glyphicon-menu-down"></span>',
                 'value' => function ($model, $key, $index, $column) {
                     return GridView::ROW_COLLAPSED;
                 },
@@ -69,14 +71,26 @@ use yii\helpers\Url;
             ],
             //'test_project_id',
             [
-                'class' => 'yii\grid\ActionColumn',
-                'controller' => 'test-document'
+                'class' => 'kartik\grid\ActionColumn',
+                'controller' => 'test-document',
+                'viewOptions' => [
+                    'label' => '<span class="glyphicon glyphicon-eye-open"></span>',
+                    'id' => 'modalButton2'
+                ],
+                'updateOptions' => [
+                    'label' => '<span class="glyphicon glyphicon-edit"></span>',
+                ],
+                'deleteOptions' => [
+                    'label' => '<span class="glyphicon glyphicon-trash"></span>',
+                ]
             ]
         ],
         'panel' => [
             'heading' => '<i class="glyphicon glyphicon-file"></i> Document',
             'before' => Html::button('<i class="glyphicon glyphicon-plus-sign"></i> New Test Document',
                 ['value'=>Url::toRoute('test-document/create'),'class' => 'btn btn-success','id'=>'modalButton2']),
+            /*'before' => Html::a('<i class="glyphicon glyphicon-plus-sign"></i> New Test Document',
+                Url::to('index.php?r=test-document/create'), ['class' => 'btn btn-success']),*/
             'after' => false,
             'footer' => false,
             'footerOptions' => [
