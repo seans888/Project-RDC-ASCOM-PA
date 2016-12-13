@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= $i = $model->document_type;
+    <?php $i = $model->document_type;
         if ($i == 1) {
             $data = 'Directive';
         } elseif ($i == 2) {
@@ -63,8 +63,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'test_project_id:text:Project ID',
         ],]);
-
-        echo Html::a('Download', ['test-document/download', 'file'=>$model->document], ['class' => 'btn btn-primary']);
     ?>
+    <hr>
+    <?= Html::a('Download', ['test-document/download', 'file'=>$model->document], ['class' => 'btn btn-primary']); ?>
+    <br/><br/>
 
 </div>
