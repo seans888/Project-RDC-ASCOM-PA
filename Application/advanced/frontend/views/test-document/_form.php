@@ -13,7 +13,7 @@ use common\models\TestProject;
 
 <div class="test-document-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
     <?= $form->field($model, 'docu_date')->textInput()->hint('Date written on document')->label('Date') ?>
 
@@ -29,6 +29,8 @@ use common\models\TestProject;
         ['prompt' => '--please choose test project--'])
         ->hint('Choose which test project this document is in')
         ->label('Test Project Folder')?>
+
+    <?= $form->field($model, 'docu_file')->fileInput(); ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

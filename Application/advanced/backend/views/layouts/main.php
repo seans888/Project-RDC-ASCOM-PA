@@ -75,7 +75,7 @@ DashboardAsset::register($this);
                                 (!Yii::$app->user->isGuest){
                                     echo
                                         '<div class="pull-right">
-                                    <a href="'.Url::to(['site/logout']).'" class="btn btn-default btn-flat"> 
+                                    <a href="'.Url::to(['site/logout']).'" class="btn btn-default btn-flat" data-method="post"> 
                                     Signout ('.Yii::$app->user->identity->username .')</a>
                                 </div>';}?>
 

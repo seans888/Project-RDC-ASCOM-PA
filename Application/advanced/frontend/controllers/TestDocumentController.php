@@ -8,6 +8,7 @@ use common\models\TestDocumentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * TestDocumentController implements the CRUD actions for TestDocument model.
@@ -64,6 +65,15 @@ class TestDocumentController extends Controller
     public function actionCreate()
     {
         $model = new TestDocument();
+
+        // get the instance of the uploaded file
+        $docuName = $model->docu_name;
+        $model->docu_file = UploadedFile::getInstance($model, 'file');
+        $model->docu_file->saveAs('uploads/'.$docuName.'.'.$model->file->extension);
+
+        // save the path in the db column
+        $model->document = 'uploads/'.$docuName.'.'.$model->file->extension;
+        $model->save();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
