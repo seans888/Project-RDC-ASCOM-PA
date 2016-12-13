@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\DocumentType;
 use common\models\TestProject;
+use kartik\file\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\TestDocument */
@@ -30,7 +31,16 @@ use common\models\TestProject;
         ->hint('Choose which test project this document is in')
         ->label('Test Project Folder')?>
 
-    <?= $form->field($model, 'docu_file')->fileInput(); ?>
+    <?= $form->field($model, 'docu_file')->widget(FileInput::classname(),
+        [
+            'options' => ['accept'=>'uploads/*'],
+            'pluginOptions'=>
+                [
+                    'allowedFileExtensions'=>['docx', 'xlsx'],
+                    'showUpload' => false,
+                ]
+        ]);
+    ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -37,7 +37,7 @@ class TestDocument extends \yii\db\ActiveRecord
             [['document_type', 'test_project_id'], 'integer'],
             [['docu_name'], 'string', 'max' => 255],
             [['document'], 'string', 'max' => 100],
-            [['docu_file'], 'file'],
+            [['docu_file'], 'file',],
         ];
     }
 
@@ -59,5 +59,16 @@ class TestDocument extends \yii\db\ActiveRecord
     public function getType()
     {
         return $this->hasOne(DocumentType::className(), ['id' => 'document_type']);
+    }
+
+    public function upload()
+    {
+        $docuName = $this->docu_name;
+        if ($this->validate()) {
+            $this->docu_file->saveAs('uploads/'.$docuName.'.'.$this->docu_file->extension);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
