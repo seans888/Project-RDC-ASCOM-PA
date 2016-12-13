@@ -6,6 +6,7 @@ use Yii;
 use common\models\Approval;
 use common\models\ApprovalSearch;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -63,6 +64,8 @@ class ApprovalController extends Controller
      */
     public function actionCreate()
     {
+        if (Yii::$app->user->can('create-approval')){
+
         $model = new Approval();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -71,6 +74,9 @@ class ApprovalController extends Controller
             return $this->render('create', [
                 'model' => $model,
             ]);
+        }   
+        }else {
+            throw new ForbiddenException; 
         }
     }
 
@@ -82,7 +88,8 @@ class ApprovalController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if (Yii::$app->user->can('update-approval')){
+              $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -90,7 +97,11 @@ class ApprovalController extends Controller
             return $this->render('update', [
                 'model' => $model,
             ]);
+            }
+        }else {
+            throw new ForbiddenException;
         }
+      
     }
 
     /**
@@ -101,9 +112,16 @@ class ApprovalController extends Controller
      */
     public function actionDelete($id)
     {
+        if (Yii::$app->user->can('delete-approval')){
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+
+        } else {
+            throw new ForbiddenException; 
+            
+        }
+        
     }
 
     /**

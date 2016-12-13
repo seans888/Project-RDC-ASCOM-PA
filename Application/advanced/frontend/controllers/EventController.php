@@ -8,7 +8,7 @@ use common\models\EventSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\web\ForbiddenHttpException;
 /**
  * EventController implements the CRUD actions for Event model.
  */
@@ -67,7 +67,7 @@ class EventController extends Controller
      * @return mixed
      */
     public function actionCreate($date)
-    {
+    {   if (Yii::$app->user->can('create-event')){
         $model = new Event();
         $model->created_date = $date;
 
@@ -78,6 +78,11 @@ class EventController extends Controller
                 'model' => $model,
             ]);
         }
+
+    }else {
+        throw new ForbiddenHttpException; 
+    }
+        
     }
 
     /**
@@ -87,7 +92,7 @@ class EventController extends Controller
      * @return mixed
      */
     public function actionUpdate($id)
-    {
+    {  if (Yii::$app->user->can('update-event')){
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -97,6 +102,11 @@ class EventController extends Controller
                 'model' => $model,
             ]);
         }
+
+    }else {
+        throw new ForbiddenHttpException;
+    }
+        
     }
 
     /**
@@ -107,9 +117,15 @@ class EventController extends Controller
      */
     public function actionDelete($id)
     {
+        if (Yii::$app->user->can('delete-event')){
+
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index']);   
+    }else {
+        throw new ForbiddenHttpException;
+        
+    }
     }
 
     /**

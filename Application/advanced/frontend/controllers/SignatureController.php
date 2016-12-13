@@ -8,6 +8,7 @@ use common\models\SignatureSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\ForbiddenHttpException;
 
 /**
  * SignatureController implements the CRUD actions for Signature model.
@@ -63,7 +64,9 @@ class SignatureController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Signature();
+         if (Yii::$app->user->can('create-signature')){
+
+                    $model = new Signature();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -72,6 +75,10 @@ class SignatureController extends Controller
                 'model' => $model,
             ]);
         }
+
+         }else {
+            throw new ForbiddenHttpException;
+         }
     }
 
     /**
@@ -82,7 +89,9 @@ class SignatureController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if (Yii::$app->user->can('update-signature')){
+
+            $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -90,7 +99,11 @@ class SignatureController extends Controller
             return $this->render('update', [
                 'model' => $model,
             ]);
-        }
+            }    
+        }else {
+            throw new ForbiddenHttpException;
+        }   
+        
     }
 
     /**
@@ -101,9 +114,15 @@ class SignatureController extends Controller
      */
     public function actionDelete($id)
     {
+        if (Yii::$app->user->can('delete-signature')){
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+        }else {
+            throw new ForbiddenHttpException;
+            
+        }
     }
 
     /**

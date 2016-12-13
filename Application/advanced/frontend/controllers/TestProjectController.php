@@ -8,6 +8,7 @@ use common\models\TestProjectSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\ForbiddenHttpException;
 
 /**
  * TestProjectController implements the CRUD actions for TestProject model.
@@ -63,7 +64,9 @@ class TestProjectController extends Controller
      */
     public function actionCreate()
     {
-        $model = new TestProject();
+        if (Yii::$app->user->can('create-test-project')){
+
+            $model = new TestProject();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -71,7 +74,11 @@ class TestProjectController extends Controller
             return $this->renderAjax('create', [
                 'model' => $model,
             ]);
+            }
+        } else {
+            throw new ForbiddenHttpException;
         }
+        
     }
 
     /**
@@ -82,6 +89,8 @@ class TestProjectController extends Controller
      */
     public function actionUpdate($id)
     {
+        if (Yii::$app->user->can('update-test-project')){
+
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -90,6 +99,10 @@ class TestProjectController extends Controller
             return $this->render('update', [
                 'model' => $model,
             ]);
+            }
+
+        }else {
+            throw new ForbiddenHttpException;
         }
     }
 
@@ -101,9 +114,15 @@ class TestProjectController extends Controller
      */
     public function actionDelete($id)
     {
+        if (Yii::$app->user->can('delete-test-project')){
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+
+        }else {
+            throw new ForbiddenHttpException;
+        }
     }
 
     /**
