@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php
         Modal::begin([
-        'header'=>'<h1>Event</h1>',
+        'header'=>'<h4>Add Calendar Event</h4>',
         'id' => 'modal' ,
         'size' => 'modal-lg',
     ]);

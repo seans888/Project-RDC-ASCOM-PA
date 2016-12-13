@@ -1,36 +1,54 @@
 <?php
 
+use common\models\TestDocument;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Signature */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="signature-form">
+<div class="form-horizontal">
+    <br/>
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
 
-    <?php $form = ActiveForm::begin(); ?>
+            <h1>Add Signature</h1>
 
-    <?= $form->field($model, 'sig_title')->textInput(['maxlength' => true])
-        ->hint('Title of approver')->label('Position')?>
+            <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'sig_order')->textInput()
-        ->hint('Order of signature')->label('Order')?>
+            <?= $form->field($model, 'sig_title')->textInput(['maxlength' => true])->label('Your Position')?>
 
-    <?= $form->field($model, 'sig_comment')->textInput(['maxlength' => true])
-        ->hint('Comment on signature')->label('Comments')?>
+            <?= $form->field($model, 'sig_order')->textInput()->label('Order')?>
 
-    <?= $form->field($model, 'sig_date_signed')->textInput()
-        ->hint('When was document signed')->label('Date')?>
+            <?= $form->field($model, 'sig_comment')->textarea(['rows'=>'3','maxlength' => true])->label('Comments')?>
 
-    <?= $form->field($model, 'test_document_id')->textInput()
-        ->hint('Signature for which document')->label('For test document')?>
+            <?= $form->field($model, 'sig_date_signed')->textInput()->label('Date')?>
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?=
+            $form->field($model, 'test_document_id')->widget(Select2::classname(), [
+                'data' => ArrayHelper::map(TestDocument::find()->all(), 'id', 'docu_name'),
+                'language' => 'en',
+                'size' => Select2::SMALL,
+                'options' => ['placeholder' => 'Select a document ...'],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'maximumSelectionLength'=> 3,
+                ],
+            ])->label('Test Document');
+            ?>
+
+            <div class="form-group">
+                <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            </div>
+
+            <?php ActiveForm::end(); ?>
+        </div>
     </div>
-
-    <?php ActiveForm::end(); ?>
+    </fieldset>
 
 </div>

@@ -22,7 +22,8 @@
         "philippfrenzel/yii2fullcalendar": "*",
         "kartik-v/yii2-widget-fileinput": "*",
         "kartik-v/yii2-detail-view": "*",
-        "2amigos/yii2-date-picker-widget": "*"
+        "2amigos/yii2-date-picker-widget": "*",
+        "kartik-v/yii2-widget-select2": "*"
     },
     "require-dev": {
         "codeception/codeception": "*",

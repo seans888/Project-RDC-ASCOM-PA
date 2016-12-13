@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\TestProject;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -89,7 +90,11 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            $newmodel = new TestProject();
+            //return $this->goBack();
+            return $this->render('index', [
+               'model' =>  $newmodel
+            ]);
         } else {
             return $this->render('login', [
                 'model' => $model,

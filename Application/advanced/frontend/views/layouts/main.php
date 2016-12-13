@@ -43,14 +43,14 @@ AppAsset::register($this);
         //$menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
-        $menuItems[] = '<li>'
+        $menuItems[] = '<form class="navbar-form navbar-left"><li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
                 'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
+                ['class' => 'btn btn-default logout']
             )
             . Html::endForm()
-            . '</li>';
+            . '</li></form>';
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
