@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use kartik\detail\DetailView;
 use common\models\DocumentType;
+use yii\bootstrap\ActiveForm;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\TestDocument */
@@ -60,7 +62,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => $data
             ],
             'test_project_id:text:Project ID',
-        ],
-    ]) ?>
+        ],]);
+
+        echo Html::a('Download', ['test-document/download', 'file'=>$model->document], ['class' => 'btn btn-primary']);
+    ?>
 
 </div>

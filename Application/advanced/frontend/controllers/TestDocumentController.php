@@ -131,4 +131,18 @@ class TestDocumentController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionDownload($file){
+
+        $model = new TestDocument();
+
+        //$file = 'uploads/'.$model->docu_name.'.docx';
+        if (file_exists($file)) {
+            return Yii::$app->response->sendFile($file);
+            //$this->redirect(['view']);
+        } else {
+            return $this->redirect(['index']);
+        }
+
+    }
 }

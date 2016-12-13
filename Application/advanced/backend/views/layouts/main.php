@@ -108,7 +108,7 @@ DashboardAsset::register($this);
                 <li class="header">MAIN NAVIGATION</li>
                 <li class="active treeview">
                     <a href="#">
-                        <i class="fa fa-user"></i> <span>User Managment</span>
+                        <i class="fa fa-users"></i> <span>User Managment</span>
                         <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
