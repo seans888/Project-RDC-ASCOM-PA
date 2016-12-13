@@ -1,17 +1,18 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+use kartik\detail\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\TestProject */
 
-$this->title = $model->id;
+$this->title = $model->project_name;
 $this->params['breadcrumbs'][] = ['label' => 'Test Projects', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="test-project-view">
 
+    <br/>
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
@@ -27,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= DetailView::widget([
         'model' => $model,
+        'hover' => true,
         'attributes' => [
             'id',
             'project_name',

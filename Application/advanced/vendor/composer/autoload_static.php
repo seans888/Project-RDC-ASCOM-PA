@@ -36,9 +36,11 @@ class ComposerStaticInitfcfa288df89d0761a1c62bfcf644b93e
         'k' => 
         array (
             'kartik\\plugins\\fileinput\\' => 25,
+            'kartik\\helpers\\' => 15,
             'kartik\\grid\\' => 12,
             'kartik\\file\\' => 12,
             'kartik\\dialog\\' => 14,
+            'kartik\\detail\\' => 14,
             'kartik\\base\\' => 12,
         ),
         'c' => 
@@ -136,6 +138,10 @@ class ComposerStaticInitfcfa288df89d0761a1c62bfcf644b93e
         array (
             0 => __DIR__ . '/..' . '/kartik-v/bootstrap-fileinput',
         ),
+        'kartik\\helpers\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-helpers',
+        ),
         'kartik\\grid\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-grid',
@@ -147,6 +153,10 @@ class ComposerStaticInitfcfa288df89d0761a1c62bfcf644b93e
         'kartik\\dialog\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-dialog',
+        ),
+        'kartik\\detail\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-detail-view',
         ),
         'kartik\\base\\' => 
         array (

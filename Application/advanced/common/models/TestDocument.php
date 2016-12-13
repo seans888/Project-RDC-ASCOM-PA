@@ -60,15 +60,4 @@ class TestDocument extends \yii\db\ActiveRecord
     {
         return $this->hasOne(DocumentType::className(), ['id' => 'document_type']);
     }
-
-    public function upload()
-    {
-        $docuName = $this->docu_name;
-        if ($this->validate()) {
-            $this->docu_file->saveAs('uploads/'.$docuName.'.'.$this->docu_file->extension);
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
