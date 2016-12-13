@@ -31,16 +31,7 @@ use kartik\file\FileInput;
         ->hint('Choose which test project this document is in')
         ->label('Test Project Folder')?>
 
-    <?= $form->field($model, 'docu_file')->widget(FileInput::classname(),
-        [
-            'options' => ['accept'=>'uploads/*'],
-            'pluginOptions'=>
-                [
-                    'allowedFileExtensions'=>['docx', 'xlsx'],
-                    'showUpload' => false,
-                ]
-        ]);
-    ?>
+    <?= $form->field($model, 'docu_file')->fileInput(); ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -68,38 +68,15 @@ class TestDocumentController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             // get the instance of the uploaded file
-            /*$docuName = $model->docu_name;
+            $docuName = $model->docu_name;
             $model->docu_file = UploadedFile::getInstance($model, 'docu_file');
             $model->docu_file->saveAs('uploads/'.$docuName.'.'.$model->docu_file->extension);
 
             // save the path in the db column
             $model->document = 'uploads/'.$docuName.'.'.$model->docu_file->extension;
-            $model->save();*/
+            $model->save();
 
-
-            // get the uploaded file instance. for multiple file uploads
-            // the following data will return an array
-            $docu_file = UploadedFile::getInstance($model, 'docu_file');
-
-            // store the source file name
-            $docuName = $model->docu_name;
-            $model->docu_name = $docu_file->name;
-            $ext = end((explode(".", $docu_file->name)));
-
-            // generate a unique file name
-            //$model->avatar = Yii::$app->security->generateRandomString().".{$ext}";
-
-            // the path to save file, you can set an uploadPath
-            // in Yii::$app->params (as used in example below)
-            $path = 'uploads/'.$docuName.'.'.$model->docu_file->extension;
-            $model->document = 'uploads/'.$docuName.'.'.$model->docu_file->extension;
-
-            if($model->save()){
-                $docu_file->saveAs($path);
-                return $this->redirect(['view', 'id'=>$model->_id]);
-            } else {
-                // error in saving model
-            }
+            return $this->redirect(['test-project/index', 'model'=>$model]);
         } else {
             return $this->renderAjax('create', [
                 'model' => $model,
