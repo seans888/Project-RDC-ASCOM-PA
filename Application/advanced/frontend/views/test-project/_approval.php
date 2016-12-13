@@ -57,8 +57,7 @@ use yii\bootstrap\Modal;
                 ],
             ],
             'panel' => [
-                'before' => Html::button('Notify for Approval',
-                    ['value' =>Url::toRoute('approval/create'), 'class' => 'btn btn-default', 'id' => 'modalButton3']),
+                'before' => false,
                 'after' => false,
                 'footer' => false,
                 'type' => 'info'
@@ -93,8 +92,7 @@ use yii\bootstrap\Modal;
                 ],
             ],
             'panel' => [
-                'before' => Html::button('For Signature',
-                    ['value' =>Url::toRoute('signature/create'), 'class' => 'btn btn-default', 'id' => 'modalButton4']),
+                'before' => false,
                 'after' => false,
                 'footer' => false,
                 'type' => 'info'

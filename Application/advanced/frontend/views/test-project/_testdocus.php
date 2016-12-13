@@ -87,10 +87,9 @@ use yii\helpers\Url;
         ],
         'panel' => [
             'heading' => '<i class="glyphicon glyphicon-file"></i> Document',
-            'before' => Html::button('<i class="glyphicon glyphicon-plus-sign"></i> New Test Document',
-                ['value'=>Url::toRoute('test-document/create'),'class' => 'btn btn-success','id'=>'modalButton2']),
-            /*'before' => Html::a('<i class="glyphicon glyphicon-plus-sign"></i> New Test Document',
-                Url::to('index.php?r=test-document/create'), ['class' => 'btn btn-success']),*/
+            'before' => false,
+            /*'before' => Html::button('<i class="glyphicon glyphicon-plus-sign"></i> New Test Document',
+                ['value'=>Url::toRoute('test-document/create'),'class' => 'btn btn-success','id'=>'modalButton2']),*/
             'after' => false,
             'footer' => false,
             'footerOptions' => [

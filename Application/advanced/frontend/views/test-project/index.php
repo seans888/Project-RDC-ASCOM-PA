@@ -25,7 +25,30 @@ $this->params['breadcrumbs'][] = $this->title;
             'size' => 'modal-lg',
         ]);
         echo "<div id = 'modalContent'></div>";
+        Modal::end();
 
+        Modal::begin([
+            'header'=>'<h1>New Test Document</h1>',
+            'id' => 'modal2' ,
+            'size' => 'modal-lg',
+        ]);
+        echo "<div id = 'modalContent2'></div>";
+        Modal::end();
+
+        Modal::begin([
+            'header'=>'<h1>For Signature</h1>',
+            'id' => 'modal4' ,
+            'size' => 'modal-lg',
+        ]);
+        echo "<div id = 'modalContent4'></div>";
+        Modal::end();
+
+        Modal::begin([
+            'header'=>'<h1>For Approval</h1>',
+            'id' => 'modal3' ,
+            'size' => 'modal-lg',
+        ]);
+        echo "<div id = 'modalContent3'></div>";
         Modal::end();
     ?>
     <?= GridView::widget([
@@ -87,8 +110,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'panel' => [
             //<span class="glyphicon glyphicon-folder-open"/>
             'heading' => '<h2><i class="glyphicon glyphicon-folder-close"></i> Test Projects</h2>',
-            'before' => Html::button('<i class="glyphicon glyphicon-plus-sign"></i> &nbsp;Test Project',
-                ['value'=>Url::to('index.php?r=test-project/create'),'class' => 'btn btn-success','id'=>'modalButton']),
+            'before' => Html::button('<i class="glyphicon glyphicon-plus-sign"></i>&nbsp; Test Project',
+                ['value'=>Url::to('index.php?r=test-project/create'),'class' => 'btn btn-success','id'=>'modalButton'])
+            .'&nbsp;'.
+                Html::button('<i class="glyphicon glyphicon-plus-sign"></i>&nbsp; Document',
+                    ['value'=>Url::toRoute('test-document/create'),'class' => 'btn btn-success','id'=>'modalButton2'])
+            .'&nbsp;'.
+                Html::button('<i class="glyphicon glyphicon-comment"></i>&nbsp; Notify for Approval',
+                    ['value' =>Url::toRoute('approval/create'), 'class' => 'btn btn-info', 'id' => 'modalButton3'])
+            .'&nbsp;'.
+                Html::button('<i class="glyphicon glyphicon-ok"></i>&nbsp; For Signature',
+                    ['value' =>Url::toRoute('signature/create'), 'class' => 'btn btn-info', 'id' => 'modalButton4']),
             'footer' => '<h6>End of test projects</h6>',
             'after' => false,
         ],
