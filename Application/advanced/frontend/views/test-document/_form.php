@@ -1,11 +1,14 @@
 <?php
 
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\DocumentType;
 use common\models\TestProject;
 use kartik\file\FileInput;
+use dosamigos\datepicker\DatePicker;
+
 
 /* @var $this yii\web\View */
 /* @var $model common\models\TestDocument */
@@ -16,8 +19,17 @@ use kartik\file\FileInput;
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
-    <?= $form->field($model, 'docu_date')->textInput()->hint('Date written on document')->label('Date') ?>
-
+    <?= $form->field($model, 'docu_date')->widget(
+        DatePicker::className(), [
+        // inline too, not bad
+        'inline' => false,
+        // modify template for custom rendering
+        //'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
+        'clientOptions' => [
+            'autoclose' => true,
+            'format' => 'dd-M-yyyy'
+        ]
+    ]);?>
     <?= $form->field($model, 'docu_name')->textInput(['maxlength' => true])
         ->hint('Enter title of document')->label('Document name or title') ?>
 
